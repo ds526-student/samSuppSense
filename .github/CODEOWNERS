@@ -1,0 +1,7 @@
+# Require ds526-student to approve all changes
+* @ds526-student
+
+# Example: Require ds526-student to approve changes in specific directories
+/docs/ @ds526-student
+/config/ @ds526-student
+*.md @ds526-student
