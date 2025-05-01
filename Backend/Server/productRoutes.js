@@ -1,32 +1,34 @@
-//imports expressjs library 
 const express = require('express');
-//router to organise endpoints
 const router = express.Router();
-//imports getProductByBarcode function from productController.js
-//this function talks to the db and finds a product by its barcode
-const { getProductByBarcode } = require('./productController');
+const db = require('../db');
+const { getSummaryFromOpenAI } = require('../utils/openai');
 
-//if the user is in /product
-//the /product indicate the end part of the url. for example, the url could be http://localhost:3000/api/product?barcode=123 
-router.get('/product', async (req, res) => {
+router.get('/summary', async (req, res) => {
+  const { barcode } = req.query;
+
   try {
-    //if the url is the above, then req.query.barcode will be 123
-    const { barcode } = req.query;
-    //calls imported barcode function to search the databse. await pauses execution until db reponds 
-    const product = await getProductByBarcode(barcode);
-    
-    //handling not found errors
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
-    }
-    
-    //if product is found then send it back as a json file
-    res.json(product);
-  } 
-  catch (error) {
-    res.status(500).json({ error: "Server error" });
+    const [productRows] = await db.query('SELECT * FROM products WHERE barcode = ?', [barcode]);
+    if (productRows.length === 0) return res.status(404).json({ error: 'Product not found' });
+
+    const productId = productRows[0].id;
+    const [ingredientRows] = await db.query('SELECT ingredient_name FROM product_ingredients WHERE product_id = ?', [productId]);
+
+    const ingredientNames = ingredientRows.map(row => row.ingredient_name);
+
+    if (ingredientNames.length === 0) return res.status(404).json({ error: 'No ingredients found' });
+
+    const placeholders = ingredientNames.map(() => '?').join(', ');
+    const [papers] = await db.query(`SELECT title, abstract FROM research_papers WHERE ingredient_name IN (${placeholders})`, ingredientNames);
+
+    if (papers.length === 0) return res.status(404).json({ error: 'No research papers found' });
+
+    const summary = await getSummaryFromOpenAI(ingredientNames, papers);
+
+    res.json({ summary });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-//exporting router makes it available for other files
 module.exports = router;
