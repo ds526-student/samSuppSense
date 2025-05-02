@@ -1,8 +1,11 @@
+//importing necessary modules
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+//call the function to get the summary from openai
 const { getSummaryFromOpenAI } = require('../utils/openai');
 
+//route to get product details by barcode
 router.get('/summary', async (req, res) => {
   const { barcode } = req.query;
 
