@@ -5,11 +5,13 @@ const express = require('express');
 const path = require('path');
 //import the file system module to read and write files in the server
 const { readFile } = require('fs').promises;
+const port = 3000;
 
-//create an instance o
 // defining express application (for defining routes)
 const app = express();
 
+
+//use this path as default 
 app.use(express.static(path.join(__dirname, '../../Frontend')));
 
 //defines route handler for the root URL 
@@ -53,13 +55,12 @@ app.get('/input.html', async (request, response) => {
 });
 
 
-
 //import the router 
-//const userRouter = require('./productRoutes')
-
+const router = require('./routes');
 //use the router
-//app.use('/api', productRoutes)
+router.use('/', productRoutes)
+
 
 //let the server listen in the enviroment port or 3000
-app.listen(process.env.port || 3000, () => console.log("app available on http://localhost:3000"))
+app.listen(process.env.port || port, () => console.log("app available on http://localhost:3000"))
 
