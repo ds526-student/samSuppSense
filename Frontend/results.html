@@ -32,8 +32,25 @@
                 <p>Ingredients: <span id="ingredients">Sample Ingredients</span></p>
                 <p>Nutrition Facts: <span id="nutrition-facts">Sample Nutrition Facts</span></p>
                 <p>Warnings: <span id="warnings">Sample Warnings</span></p>
+                <!-- test new line to display -->
+                <p><strong>Entered Barcode:</strong> <span id="barcode-display">Loading...</span></p>
             </div>
             <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
         </div>
+        
+        <script>
+            //GETs data by doing a HTTP request to the backend
+            fetch('/api/result')
+            //unpacks response from server then parses it to become data 
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('barcode-display').innerText = data.result;
+            })
+            .catch(error => {
+                console.error('Error fetching result:', error);
+                document.getElementById('barcode-display').innerText = "Failed to load result.";
+            });
+        </script>
+
     </body>
 </html> 
