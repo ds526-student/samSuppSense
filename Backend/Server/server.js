@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
 //import and use routes api
-const userRouter = require('./routes');
+const userRouter = require('./routes'); 
 app.use('/api', userRouter); 
 
 //start server

@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 //const db = require('/db');
 
-let storedInput = '';
 
 // Handle submission of input
 router.post('/submit', (req, res) => {
