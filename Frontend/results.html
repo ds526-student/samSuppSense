@@ -10,28 +10,6 @@
             <h1>SuppSense</h1>
             <h2>Results</h2>
             <div id="results">
-                <table>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Brand</th>
-                        <th>Ingredients</th>
-                        <th>Nutrition Facts</th>
-                        <th>Warnings</th>
-                    </tr>
-                    <tr>
-                        <td id="product-name">Sample Product</td>
-                        <td id="brand">Sample Brand</td>
-                        <td id="ingredients">Sample Ingredients</td>
-                        <td id="nutrition-facts">Sample Nutrition Facts</td>
-                        <td id="warnings">Sample Warnings</td>
-                    </tr>
-                </table>
-                <hr>Product Details</hr>
-                <p>Product Name: <span id="product-name">Sample Product</span></p>
-                <p>Brand: <span id="brand">Sample Brand</span></p>
-                <p>Ingredients: <span id="ingredients">Sample Ingredients</span></p>
-                <p>Nutrition Facts: <span id="nutrition-facts">Sample Nutrition Facts</span></p>
-                <p>Warnings: <span id="warnings">Sample Warnings</span></p>
             </div>
             <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
         </div>
@@ -41,15 +19,13 @@
     
             // Display the result
             const resultsDiv = document.getElementById('results');
-            if (queryResult && queryResult.length > 0) {
-                queryResult.forEach(item => {
-                    const resultItem = document.createElement('p');
-                    resultItem.textContent = JSON.stringify(item);
-                    resultsDiv.appendChild(resultItem);
-                });
-            } else {
-                resultsDiv.textContent = 'No results found.';
-            }
+    if (queryResult && queryResult.length > 0) {
+        const data = document.createElement('p');
+        data.textContent = JSON.stringify(queryResult, null, 2); // Pretty-print JSON
+        resultsDiv.appendChild(data);
+    } else {
+        resultsDiv.textContent = 'No results found.';
+    }
         </script>
     </body>
 </html> 
