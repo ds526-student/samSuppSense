@@ -22,6 +22,8 @@ con.connect(function(err) {
   console.log("Connected!");
 });
 
+let storedInput = null;
+
 // runs a select query when the submit button is clicked
 app.post('/query', function (req, res) {
   const barcode = req.body.barcode;
@@ -36,6 +38,15 @@ app.post('/query', function (req, res) {
       console.log(result);
     }
   });
+});
+
+// Endpoint to serve the stored result
+app.post('/api/submit', (req, res) => {
+  if (storedResult) {
+    res.json({ success: true, data: storedResult });
+  } else {
+    res.json({ success: false, message: 'No data available' });
+  }
 });
 
 // listens on port 3000

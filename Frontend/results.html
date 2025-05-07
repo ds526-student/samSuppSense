@@ -35,5 +35,21 @@
             </div>
             <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
         </div>
+        <script>
+            // Retrieve the query result from localStorage
+            const queryResult = JSON.parse(localStorage.getItem('queryResult'));
+    
+            // Display the result
+            const resultsDiv = document.getElementById('results');
+            if (queryResult && queryResult.length > 0) {
+                queryResult.forEach(item => {
+                    const resultItem = document.createElement('p');
+                    resultItem.textContent = JSON.stringify(item);
+                    resultsDiv.appendChild(resultItem);
+                });
+            } else {
+                resultsDiv.textContent = 'No results found.';
+            }
+        </script>
     </body>
 </html> 
