@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
 //import and use routes api
-const userRouter = require('./routes');  
+const userRouter = require('./database');  
 app.use('/api', userRouter); 
 
 //start server 
