@@ -29,6 +29,19 @@ router.post('/productSelect', (req, res) => {
   });
 });
 
+// uses the barcode from the frontend to select an ingredient from the database
+router.post('/ingredientSelect', (req, res) => {
+  const { barcode } = req.body;
+    con.query('SELECT IngredientID, IngredientName FROM ingredients WHERE IngredientID = ?', [barcode], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error executing query');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
 // uses the product name from the frontend to select a product id from the database
 router.post('/getProductId', (req, res) => {
   const { productName } = req.body;
@@ -96,7 +109,7 @@ router.post('/addIngredientToProduct', (req, res) => {
     res.status(500).send('Error adding ingredient to product');
   } else {
     console.log('Ingredient added to product:', result);
-    res.json({ success: true, result});
+    res.json({ success: true, result });
   }
   });
 });
@@ -111,7 +124,21 @@ router.post('/removeIngredientFromProduct', (req, res) => {
       res.status(500).send('Error removing ingredient from product');
     } else {
       console.log('Ingredient removed from product', result);
-      res.json({ success: true, result});
+      res.json({ success: true, result });
+    }
+  });
+});
+
+router.post('/insertNewIngredient', (req, res) => {
+  const { IngredientID, IngredientName } = req.body;
+
+  con.query('INSERT INTO ingredients (IngredientID, IngredientName) VALUES (?,?)', [IngredientID, IngredientName], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error inserting new ingredient');
+    } else {
+      console.log('New Ingredient successfully added', result);
+      res.json({ success: true, result });
     }
   });
 });

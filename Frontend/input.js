@@ -93,8 +93,62 @@ document.getElementById('Add').addEventListener('click', async () => {
             },
             body: JSON.stringify({ ingredientName }),
         });
-
+        
         response = await ingredientIdResponse.json();
+        
+        if (response.length === 0 || !response[0].IngredientID) {
+            console.log('While loop reached');
+            let ingredientExists = true;
+            while (ingredientExists) {
+                let barcode = generateBarcode(1000, 9999)
+                
+                console.log(barcode);
+                console.log('Checking for ingredient');
+
+                ingredientIdCheck = await fetch('http://localhost:3000/api/ingredientSelect', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ barcode }),
+                });
+
+                console.log('Ingredient Checked', ingredientIdCheck);
+                response = await ingredientIdCheck.json();
+                console.log(response);
+    
+                if (response.length === 0) {
+                    console.log('Inserting new ingredient')
+                    console.log(barcode);
+                    console.log(ingredientName);
+
+                    insertIngredientResponse = await fetch('http://localhost:3000/api/insertNewIngredient', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ IngredientID: barcode, IngredientName: ingredientName }),
+                    });
+
+                    console.log('Inserted new ingredient', insertIngredientResponse);
+
+                    // finds the ingredientID based on the ingredient name in the text box
+                    const ingredientIdSearch = await fetch('http://localhost:3000/api/getIngredientId', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ ingredientName }),
+                    });
+
+                    console.log('found newely inserted ingredient', response);
+
+                    response = await ingredientIdSearch.json();
+                    ingredientExists = false;
+                }
+            }
+        }
+
         ingredient = response[0].IngredientID;
 
         // adds the new ingredient to the product_ingredients table
@@ -184,3 +238,9 @@ function displayIngredients(ingredients) {
         ingredientsDiv.appendChild(noIngredients);
     }
 }
+
+function generateBarcode(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
