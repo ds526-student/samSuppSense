@@ -1,5 +1,5 @@
 document.getElementById('load').addEventListener('click', async () => {  
-    const productName = document.getElementById('inputText').value;
+    const productName = document.getElementById('inputProduct').value;
     
     try {
         const response = await fetch('http://localhost:3000/api/getProductId', {
@@ -27,7 +27,7 @@ document.getElementById('load').addEventListener('click', async () => {
     const resultsDiv = document.getElementById('output');
     if (queryResult && queryResult.length > 0) {
         const data = document.createElement('p'); // creates a new paragraph element
-        data.textContent = `Product Name: ${document.getElementById('inputText').value}`;
+        data.textContent = `Product Name: ${document.getElementById('inputProduct').value}`;
         resultsDiv.appendChild(data);
 
         localStorage.setItem('queryResult', JSON.stringify(queryResult));
@@ -69,8 +69,8 @@ async function fetchIngredients() {
 
 // adds an ingredient to the product
 document.getElementById('Add').addEventListener('click', async () => {  
-    const productName = document.getElementById('inputText').value; // gets the product name from the text box
-    const ingredientName = document.getElementById('addIngredient').value; // gets the ingredient name from the text box
+    const productName = document.getElementById('inputProduct').value; // gets the product name from the text box
+    const ingredientName = document.getElementById('inputIngredient').value; // gets the ingredient name from the text box
 
     try {
         // finds the productID based on the product name in the text box
@@ -171,8 +171,8 @@ document.getElementById('Add').addEventListener('click', async () => {
 
 // removes an ingredient from the product
 document.getElementById('Remove').addEventListener('click', async() => {
-    const productName = document.getElementById('inputText').value; // gets the product name from the text box
-    const ingredientName = document.getElementById('removeIngredient').value; // gets the ingredient name from the text box
+    const productName = document.getElementById('inputProduct').value; // gets the product name from the text box
+    const ingredientName = document.getElementById('inputIngredient').value; // gets the ingredient name from the text box
 
     try {
         // finds the productID based on the name entered into the text box
@@ -224,7 +224,7 @@ function displayIngredients(ingredients) {
 
     if (ingredients && ingredients.length > 0) {
         const productItem = document.createElement('p');
-        productItem.textContent = `Product Name: ${document.getElementById('inputText').value}`;
+        productItem.textContent = `Product Name: ${document.getElementById('inputProduct').value}`;
         ingredientsDiv.appendChild(productItem);
 
         ingredients.forEach(ingredient => {
