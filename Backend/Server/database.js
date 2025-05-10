@@ -85,6 +85,7 @@ router.post('/getIngredients', (req, res) => {
   });
 });
 
+// adds a productid with a corresponding ingredientid to product_ingredients
 router.post('/addIngredientToProduct', (req, res) => {
   const { ProductID, IngredientID } = req.body;
   // console.log('Product ID:', product, 'Ingredient ID:', ingredient);
@@ -95,8 +96,23 @@ router.post('/addIngredientToProduct', (req, res) => {
     res.status(500).send('Error adding ingredient to product');
   } else {
     console.log('Ingredient added to product:', result);
-    res.json({ success: true, result})
+    res.json({ success: true, result});
   }
+  });
+});
+
+// removes a productid along with a corresponding ingredientid from product_ingredients
+router.post('/removeIngredientFromProduct', (req, res) => {
+  const { ProductID, IngredientID } = req.body;
+
+  con.query('DELETE FROM product_ingredients WHERE ProductID = ? AND IngredientID = ?', [ProductID, IngredientID], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error removing ingredient from product');
+    } else {
+      console.log('Ingredient removed from product', result);
+      res.json({ success: true, result});
+    }
   });
 });
 

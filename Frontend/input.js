@@ -115,6 +115,54 @@ document.getElementById('Add').addEventListener('click', async () => {
     
 });
 
+// removes an ingredient from the product
+document.getElementById('Remove').addEventListener('click', async() => {
+    const productName = document.getElementById('inputText').value; // gets the product name from the text box
+    const ingredientName = document.getElementById('removeIngredient').value; // gets the ingredient name from the text box
+
+    try {
+        // finds the productID based on the name entered into the text box
+        const productIdResponse = await fetch('http://localhost:3000/api/getProductId', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productName }),
+        });
+
+        response = await productIdResponse.json();
+        product = response[0].ProductID;
+
+        // finds the ingredientID based on the ingredient name in the text box
+        const ingredientIdResponse = await fetch('http://localhost:3000/api/getIngredientId', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ingredientName }),
+        });
+
+        response = await ingredientIdResponse.json();
+        ingredient = response[0].IngredientID;
+
+        // removes an ingredient from the product_ingredients table
+        const addResponse = await fetch('http://localhost:3000/api/removeIngredientFromProduct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ProductID: product, IngredientID: ingredient }),
+        });
+
+        // fetches all ingredients and redisplays them
+        fetchIngredients();
+    } catch (error) {
+        console.error(error);
+        alert('Error removing ingredient from product');
+    }
+    
+});
+
 // displays the ingredients in the results div
 function displayIngredients(ingredients) {
     const ingredientsDiv = document.getElementById('output');
