@@ -10,15 +10,17 @@
             <h1>SuppSense</h1>
             <h2>Input Data here</h2>
             <div id="Input"></div>
-            <input type="text" id="input" placeholder="New or existing product name" style="width: 300px; height: 30px">
+            <input type="text" id="inputProduct" placeholder="New or existing product name" style="width: 300px; height: 30px">
+            <button id="load" style="width: 100px; height: 30px; margin-top: 10px;">Load</button>
 
-            <input type="text" id="add" placeholder="Add new ingredient" style="width: 300px; height: 30px">
+            <input type="text" id="inputIngredient" placeholder="Add or Remove ingredient" style="width: 300px; height: 30px">
             <button id="Add" style="width: 100px; height: 30px; margin-top: 10px;">Add</button>
-
-            <input type="text" id="remove" placeholder="Remove ingredient" style="width: 300px; height: 30px">
             <button id="Remove" style="width: 100px; height: 30px; margin-top: 10px;">Remove</button>
 
             <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
+            <div id="output" style="margin-top: 20px;">
+            </div>
         </div>
+        <script src="input.js"></script>
     </body>
 </html>
