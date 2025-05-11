@@ -10,47 +10,9 @@
             <h1>SuppSense</h1>
             <h2>Results</h2>
             <div id="results">
-                <table>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Brand</th>
-                        <th>Ingredients</th>
-                        <th>Nutrition Facts</th>
-                        <th>Warnings</th>
-                    </tr>
-                    <tr>
-                        <td id="product-name">Sample Product</td>
-                        <td id="brand">Sample Brand</td>
-                        <td id="ingredients">Sample Ingredients</td>
-                        <td id="nutrition-facts">Sample Nutrition Facts</td>
-                        <td id="warnings">Sample Warnings</td>
-                    </tr>
-                </table>
-                <hr>Product Details</hr>
-                <p>Product Name: <span id="product-name">Sample Product</span></p>
-                <p>Brand: <span id="brand">Sample Brand</span></p>
-                <p>Ingredients: <span id="ingredients">Sample Ingredients</span></p>
-                <p>Nutrition Facts: <span id="nutrition-facts">Sample Nutrition Facts</span></p>
-                <p>Warnings: <span id="warnings">Sample Warnings</span></p>
-                <!-- test new line to display -->
-                <p><strong>Entered Barcode:</strong> <span id="barcode-display">Loading...</span></p>
             </div>
             <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
         </div>
-        
-        <script>
-            //GETs data by doing a HTTP request to the backend
-            fetch('/api/result')
-            //unpacks response from server then parses it to become data 
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('barcode-display').innerText = data.result;
-            })
-            .catch(error => {
-                console.error('Error fetching result:', error);
-                document.getElementById('barcode-display').innerText = "Failed to load result.";
-            });
-        </script>
-
+        <script src="results.js"></script>
     </body>
 </html> 

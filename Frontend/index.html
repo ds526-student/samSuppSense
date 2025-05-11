@@ -9,32 +9,9 @@
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
             <h1>SuppSense</h1>
             <input type="text" id="inputText" placeholder="Enter the Barcode number here... " style="width: 300px; height: 30px">
-            <button id="submit" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='results.html';">Submit</button>
+            <button id="submit" style="width: 100px; height: 30px; margin-top: 10px;">Submit</button>
             <button id="inputButton" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='input.html';">Input</button>
         </div>
-        <script>
-            document.getElementById("submit").addEventListener("click", () => {
-            const input = document.getElementById("inputText").value;
-
-            //send data to the backend
-            fetch('/api/submit', {method: 'POST', headers: {'Content-Type': 'application/json'},
-                //converts body string into json file 
-                body: JSON.stringify({ userInput: input })
-            })
-            .then(response => response.json()).then(data => {
-                if (data.success) {
-                    //redirect manually on success
-                    window.location.href = 'results.html'; 
-                } 
-                else {
-                    alert("Something went wrong!");
-                }
-            })
-            .catch(err => {
-                console.error('Error submitting input:', err);
-            });
-            });
-        </script>
-
+        <script src="index.js"></script>
     </body>
 </html>
