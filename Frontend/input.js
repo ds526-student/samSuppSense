@@ -243,4 +243,60 @@ function generateBarcode(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+}
+
+document.getElementById('login').addEventListener('click', async () => {
+    const username = document.getElementById('usernameText').value;
+    const password = document.getElementById('passwordText').value;
+
+    try {
+        const loginResponse = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (!loginResponse.ok) {
+            throw new Error('Login failed');
+        }
+
+        const loginResult = await loginResponse.json();
+        if (loginResult.success) {
+            alert('Login successful');
+            // Redirect to another page or perform other actions
+        } else {
+            alert('Login failed: ' + loginResult.message);
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Error logging in');
+    }
+});
+
+document.getElementById('logout').addEventListener('click', async () => {
+    try {
+        const logoutResponse = await fetch('http://localhost:3000/api/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!logoutResponse.ok) {
+            throw new Error('Logout failed');
+        }
+
+        const logoutResult = await logoutResponse.json();
+
+        if (logoutResult.success) {
+            alert('Logout successful');
+            window.location.href = 'index.html';
+        } else {
+            alert('Logout failed: ' + logoutResult.message);
+        }
+    } catch (error) {
+        
+    }
+});

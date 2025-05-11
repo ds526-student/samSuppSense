@@ -6,7 +6,17 @@
         <title>SuppSense</title>
     </head>
     <body>
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+        <div id="login">
+            <label for="username"><b>Username</b></label>
+            <input id="usernameText" placeholder="Enter Username">
+
+            <label for="psw"><b>Password</b></label>
+            <input id="passwordText" placeholder="Enter Password">
+
+            <button id="login">Login</button>
+            <button id="logout">Logout</button>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; padding-top: -200px;">
             <h1>SuppSense</h1>
             <h2>Input Data here</h2>
             <div id="Input"></div>
