@@ -70,32 +70,15 @@ router.post('/getIngredientId', (req, res) => {
   });
 });
 
-// uses the product ID to get the ingredients from the database
-router.post('/getIngredients', (req, res) => {
-  const { productId } = req.body;
-  // grabs the ingredient IDs based on the productID
-  con.query('SELECT IngredientID FROM product_ingredients WHERE ProductID = ?', [productId], (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Error fetching ingredient IDs(database.js)');
-    }
-
-    // formats the ingredient IDs into an array
-    const ingredientIds = result.map(row => row.IngredientID);
-    console.log('Ingredient IDs:', ingredientIds);
-
-    // grabs the ingredient names based on the ingredient IDs
-    con.query('SELECT IngredientName FROM ingredients WHERE IngredientID IN (?)', [ingredientIds], (err, ingredients) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Error fetching ingredients');
-      }
-
-      // returns the ingredient names to the frontend
-      console.log('Ingredients:', ingredients);
-      res.json(ingredients);
-    });
-  });
+// uses the product ID to get the ingredients from the database using the fetchIngredientsFromDB method
+router.post('/getIngredients', async (req, res) => {
+  try {
+    const ingredients = await fetchIngredientsFromDB(req.body.productId);
+    res.json(ingredients); // Send to frontend
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database error');
+  }
 });
 
 // adds a productid with a corresponding ingredientid to product_ingredients
@@ -143,5 +126,39 @@ router.post('/insertNewIngredient', (req, res) => {
   });
 });
 
+//method that gets the ingredients
+const fetchIngredientsFromDB = (productId) => {
+  return new Promise((resolve, reject) => {
+    // First query: Get IngredientIDs
+    con.query(
+      'SELECT IngredientID FROM product_ingredients WHERE ProductID = ?',
+      [productId],
+      (err, result) => {
+        if (err) return reject(err);
+
+        const ingredientIds = result.map(row => row.IngredientID);
+        console.log('Ingredient IDs:', ingredientIds);
+
+        // Second query: Get IngredientNames
+        con.query(
+          'SELECT IngredientName FROM ingredients WHERE IngredientID IN (?)',
+          [ingredientIds],
+          (err, ingredients) => {
+            if (err) reject(err);
+            else resolve(ingredients);
+          }
+        );
+      }
+    );
+  });
+};
+
+
+
 // starts the database connection when the server starts
-module.exports = router;
+
+// exports current module as well as method to get ingredients  
+module.exports = {
+  router,  // for Express
+  fetchIngredientsFromDB,
+};
