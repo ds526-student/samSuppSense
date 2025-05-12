@@ -10,7 +10,8 @@ if (queryResult && queryResult.length > 0) {
     resultsDiv.appendChild(data);
 
     fetchIngredients();
-} else {
+} 
+else {
     resultsDiv.textContent = 'No results found.';
 }
 
@@ -42,6 +43,10 @@ async function fetchIngredients() {
     }
 }
 
+async function fetchAiOutput() {
+    
+}
+
 // displays the ingredients in the results div
 function displayIngredients(ingredients) {
     const ingredientsDiv = document.getElementById('results');
@@ -58,3 +63,4 @@ function displayIngredients(ingredients) {
         ingredientsDiv.appendChild(noIngredients);
     }
 }
+
