@@ -56,6 +56,30 @@ router.post('/logout', (req, res) => {
   });
 });
 
+// returns all the products in the database
+router.post('/getAllProducts', (req, res) => {  
+  currentCon.query('SELECT ProductName FROM products', (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error executing query');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// returns all the ingredients in the database
+router.post('/getAllIngredients', (req, res) => {
+  currentCon.query('SELECT IngredientName FROM ingredients', (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error executing query');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
 // uses the barcode from the frontend to select a product from the database
 router.post('/productSelect', (req, res) => {
   const { barcode } = req.body;
@@ -169,6 +193,7 @@ router.post('/removeIngredientFromProduct', (req, res) => {
   });
 });
 
+// adds a new ingredient to the database
 router.post('/insertNewIngredient', (req, res) => {
   const { IngredientID, IngredientName } = req.body;
 

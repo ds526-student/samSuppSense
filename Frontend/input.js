@@ -1,3 +1,50 @@
+fetchDataToAutoComplete();
+
+async function fetchDataToAutoComplete() {
+    try {
+        // fetches all the products from the database
+        const productResponse = await fetch('http://localhost:3000/api/getAllProducts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        products = await productResponse.json();   
+
+        // adds all the products to the product list
+        products.forEach(product => {
+            const datalist = document.getElementById('productList');
+            let newItem = product.ProductName;
+            let newOption = document.createElement('option');
+            newOption.value = newItem;
+            datalist.appendChild(newOption);
+        });
+
+        //fetches all the ingredients from the database
+        const ingredientResponse = await fetch('http://localhost:3000/api/getAllIngredients', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        ingredients = await ingredientResponse.json();
+
+        // adds all the ingredients to the ingredient list
+        ingredients.forEach(ingredient => {
+            const datalist = document.getElementById('ingredientList');
+            let newItem = ingredient.IngredientName;
+            let newOption = document.createElement('option');
+            newOption.value = newItem;
+            datalist.appendChild(newOption);
+        });
+    } catch (error) {
+        console.error(error);
+        alert('Error fetching data');
+    }
+}
+
 document.getElementById('load').addEventListener('click', async () => {  
     const productName = document.getElementById('inputProduct').value;
     
