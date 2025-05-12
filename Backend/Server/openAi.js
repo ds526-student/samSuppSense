@@ -1,11 +1,13 @@
-const { fetchIngredientsFromDB } = require('./database');
+import { fetchIngredientsFromDB } from './database.js';
+
+let ingredients = null;
 
 // call the function in database.js
-async function processIngredients(productId) {
+export async function processIngredients(productId) {
   try {
 
     // use the variable ingredients to do any processing 
-    const ingredients = await fetchIngredientsFromDB(productId);
+    ingredients = await fetchIngredientsFromDB(productId);
     //  
 
     console.log('Ingredients:', ingredients);
@@ -15,4 +17,8 @@ async function processIngredients(productId) {
     throw err;
   }
 }
+
+
+
+
 
