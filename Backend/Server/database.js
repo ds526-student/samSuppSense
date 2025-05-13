@@ -170,6 +170,5 @@ const fetchIngredientsFromDB = (productId) => {
 
 // exports current module as well as method to get ingredients  
 module.exports = {
-  router,  // for Express
-  fetchIngredientsFromDB,
+  router,
 };
