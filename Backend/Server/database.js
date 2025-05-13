@@ -169,6 +169,4 @@ const fetchIngredientsFromDB = (productId) => {
 // starts the database connection when the server starts
 
 // exports current module as well as method to get ingredients  
-module.exports = {
-  router,
-};
+module.exports = router;

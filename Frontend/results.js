@@ -15,31 +15,6 @@ else {
     resultsDiv.textContent = 'No results found.';
 }
 
-//gets the AI summary of the ingredients 
-async function getIngredientSummary(productId) {
-  try {
-    const response = await fetch('/api/process-ingredients', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId })
-    });
-
-    if (!response.ok) {
-            alert('Failed to fetch ingredient IDs(Response not OK)');
-    }
-    
-    const data = await response.json();
-    displayIngredients(ingredients);
-
-
-    console.log('Processed ingredients:', data);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
 // fetches the ingredients from the database and displays themn
 async function fetchIngredients() {
     try {
@@ -87,6 +62,7 @@ async function fetchIngredients() {
 //     }
 // }
 
+//gets ai summary of the ingredients
 async function getIngredientSummary(productId) {
   try {
     const response = await fetch('/api/process-ingredients', {
@@ -102,12 +78,12 @@ async function getIngredientSummary(productId) {
     }
     
     const data = await response.json();
-    displayIngredients(data); // Pass the actual response data
+    displayIngredients(data); 
     
     console.log('Processed ingredients:', data);
   } catch (error) {
     console.error('Error:', error);
-    alert(error.message); // Show actual error message
+    alert(error.message); 
   }
 }
 
