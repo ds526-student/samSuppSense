@@ -8,11 +8,36 @@ if (queryResult && queryResult.length > 0) {
     const data = document.createElement('p'); // creates a new paragraph element
     data.textContent = `Product Name: ${product.ProductName}`;
     resultsDiv.appendChild(data);
-
+    
     fetchIngredients();
 } 
 else {
     resultsDiv.textContent = 'No results found.';
+}
+
+//gets the AI summary of the ingredients 
+async function getIngredientSummary(productId) {
+  try {
+    const response = await fetch('/api/process-ingredients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId })
+    });
+
+    if (!response.ok) {
+            alert('Failed to fetch ingredient IDs(Response not OK)');
+    }
+    
+    const data = await response.json();
+    displayIngredients(ingredients);
+
+
+    console.log('Processed ingredients:', data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
 }
 
 // fetches the ingredients from the database and displays themn
@@ -43,23 +68,79 @@ async function fetchIngredients() {
     }
 }
 
-async function fetchAiOutput() {
+//old display method
+
+// // displays the ingredients in the results div
+// function displayIngredients(ingredients) {
+//     const ingredientsDiv = document.getElementById('results');
+
+//     if (ingredients && ingredients.length > 0) {
+//         ingredients.forEach(ingredient => {
+//             const ingredientItem = document.createElement('p');
+//             ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+//             ingredientsDiv.appendChild(ingredientItem);
+//         });
+//     } else {
+//         const noIngredients = document.createElement('p');
+//         ingredientsDiv.textContent = 'No ingredients found.';
+//         ingredientsDiv.appendChild(noIngredients);
+//     }
+// }
+
+async function getIngredientSummary(productId) {
+  try {
+    const response = await fetch('/api/process-ingredients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch ingredient summaries');
+    }
     
+    const data = await response.json();
+    displayIngredients(data); // Pass the actual response data
+    
+    console.log('Processed ingredients:', data);
+  } catch (error) {
+    console.error('Error:', error);
+    alert(error.message); // Show actual error message
+  }
 }
 
-// displays the ingredients in the results div
+// Updated display function to handle the new structure
 function displayIngredients(ingredients) {
     const ingredientsDiv = document.getElementById('results');
+    ingredientsDiv.innerHTML = ''; // Clear previous results
 
     if (ingredients && ingredients.length > 0) {
         ingredients.forEach(ingredient => {
-            const ingredientItem = document.createElement('p');
-            ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
-            ingredientsDiv.appendChild(ingredientItem);
+            // Create container for each ingredient
+            const ingredientContainer = document.createElement('div');
+            ingredientContainer.className = 'ingredient-item';
+            
+            // Add name
+            const nameElement = document.createElement('p');
+            nameElement.textContent = `Ingredient: ${ingredient.name}`;
+            nameElement.className = 'ingredient-name';
+            
+            // Add summary
+            const summaryElement = document.createElement('p');
+            summaryElement.textContent = `Summary: ${ingredient.summary}`;
+            summaryElement.className = 'ingredient-summary';
+            summaryElement.style.fontStyle = 'italic';
+            
+            // Append to container
+            ingredientContainer.appendChild(nameElement);
+            ingredientContainer.appendChild(summaryElement);
+            ingredientsDiv.appendChild(ingredientContainer);
         });
     } else {
         const noIngredients = document.createElement('p');
-        ingredientsDiv.textContent = 'No ingredients found.';
+        noIngredients.textContent = 'No ingredients found.';
         ingredientsDiv.appendChild(noIngredients);
     }
 }

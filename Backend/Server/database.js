@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
+
 // information for connecting to the database
 const con = mysql.createConnection({
   host: "localhost",
@@ -124,6 +125,16 @@ router.post('/insertNewIngredient', (req, res) => {
       res.json({ success: true, result });
     }
   });
+});
+
+router.get('/ingredients/:productId', async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const ingredients = await processIngredients(productId);
+    res.json({ success: true, ingredients });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Error fetching ingredients', error: err.message });
+  }
 });
 
 //method that gets the ingredients
