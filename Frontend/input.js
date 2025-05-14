@@ -1,3 +1,50 @@
+fetchDataToAutoComplete();
+
+async function fetchDataToAutoComplete() {
+    try {
+        // fetches all the products from the database
+        const productResponse = await fetch('http://localhost:3000/api/getAllProducts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        products = await productResponse.json();   
+
+        // adds all the products to the product list
+        products.forEach(product => {
+            const datalist = document.getElementById('productList');
+            let newItem = product.ProductName;
+            let newOption = document.createElement('option');
+            newOption.value = newItem;
+            datalist.appendChild(newOption);
+        });
+
+        //fetches all the ingredients from the database
+        const ingredientResponse = await fetch('http://localhost:3000/api/getAllIngredients', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        ingredients = await ingredientResponse.json();
+
+        // adds all the ingredients to the ingredient list
+        ingredients.forEach(ingredient => {
+            const datalist = document.getElementById('ingredientList');
+            let newItem = ingredient.IngredientName;
+            let newOption = document.createElement('option');
+            newOption.value = newItem;
+            datalist.appendChild(newOption);
+        });
+    } catch (error) {
+        console.error(error);
+        alert('Error fetching data');
+    }
+}
+
 document.getElementById('load').addEventListener('click', async () => {  
     const productName = document.getElementById('inputProduct').value;
     
@@ -244,3 +291,59 @@ function generateBarcode(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+document.getElementById('login').addEventListener('click', async () => {
+    const username = document.getElementById('usernameText').value;
+    const password = document.getElementById('passwordText').value;
+
+    try {
+        const loginResponse = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (!loginResponse.ok) {
+            throw new Error('Login failed');
+        }
+
+        const loginResult = await loginResponse.json();
+        if (loginResult.success) {
+            alert('Login successful');
+            // Redirect to another page or perform other actions
+        } else {
+            alert('Login failed: ' + loginResult.message);
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Error logging in');
+    }
+});
+
+document.getElementById('logout').addEventListener('click', async () => {
+    try {
+        const logoutResponse = await fetch('http://localhost:3000/api/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!logoutResponse.ok) {
+            throw new Error('Logout failed');
+        }
+
+        const logoutResult = await logoutResponse.json();
+
+        if (logoutResult.success) {
+            alert('Logout successful');
+            window.location.href = 'index.html';
+        } else {
+            alert('Logout failed: ' + logoutResult.message);
+        }
+    } catch (error) {
+        
+    }
+});

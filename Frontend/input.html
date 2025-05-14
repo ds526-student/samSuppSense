@@ -6,14 +6,24 @@
         <title>SuppSense</title>
     </head>
     <body>
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+        <div id="login">
+            <label for="username"><b>Username</b></label>
+            <input id="usernameText" placeholder="Enter Username">
+
+            <label for="psw"><b>Password</b></label>
+            <input id="passwordText" placeholder="Enter Password">
+
+            <button id="login">Login</button>
+            <button id="logout">Logout</button>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; padding-top: -200px;">
             <h1>SuppSense</h1>
             <h2>Input Data here</h2>
             <div id="Input"></div>
-            <input type="text" id="inputProduct" placeholder="New or existing product name" style="width: 300px; height: 30px">
+            <input type="text" id="inputProduct" placeholder="New or existing product name" list="productList" style="width: 300px; height: 30px">
             <button id="load" style="width: 100px; height: 30px; margin-top: 10px;">Load</button>
 
-            <input type="text" id="inputIngredient" placeholder="Add or Remove ingredient" style="width: 300px; height: 30px">
+            <input type="text" id="inputIngredient" placeholder="Add or Remove ingredient" list="ingredientList" style="width: 300px; height: 30px">
             <button id="Add" style="width: 100px; height: 30px; margin-top: 10px;">Add</button>
             <button id="Remove" style="width: 100px; height: 30px; margin-top: 10px;">Remove</button>
 
@@ -21,6 +31,8 @@
             <div id="output" style="margin-top: 20px;">
             </div>
         </div>
+        <datalist id="productList"></datalist>
+        <datalist id="ingredientList"></datalist>
         <script src="input.js"></script>
     </body>
 </html>

@@ -4,23 +4,87 @@ const mysql = require('mysql');
 
 
 // information for connecting to the database
-const con = mysql.createConnection({
+let currentCon = mysql.createConnection({
   host: "localhost",
-  user: "root",
+  user: "guest",
   password: "",
   database: "mcdonaldstest"
 });
 
 // connect to the database
-con.connect(function(err) {
+currentCon.connect(function(err) {
   if (err) throw err;
   console.log("Database connected!");
+});
+
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+const newConnection = mysql.createConnection({
+  host: "localhost",
+  user: username,
+  password: password,
+  database: "mcdonaldstest"
+});
+
+  newConnection.connect(function(err) {
+    if (err) {
+      console.error('Error connecting to the database:', err);
+    } else {
+      console.log('Connected to the database as:', username);
+      currentCon = newConnection;
+      res.json({ success: true, message: 'New Login successful' });
+    }
+  });
+});
+
+router.post('/logout', (req, res) => {
+  const newConnection = mysql.createConnection({
+    host: "localhost",
+    user: "guest",
+    password: "",
+    database: "mcdonaldstest"
+  });
+
+  newConnection.connect(function(err) {
+    if (err) {
+      console.error('Error connecting to the database:', err);
+    } else {
+      console.log('Connected to the database as: guest');
+      currentCon = newConnection;
+      res.json({ success: true, message: 'Logout successful' });
+    }
+  });
+});
+
+// returns all the products in the database
+router.post('/getAllProducts', (req, res) => {  
+  currentCon.query('SELECT ProductName FROM products', (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error executing query');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// returns all the ingredients in the database
+router.post('/getAllIngredients', (req, res) => {
+  currentCon.query('SELECT IngredientName FROM ingredients', (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error executing query');
+    } else {
+      res.json(result);
+    }
+  });
 });
 
 // uses the barcode from the frontend to select a product from the database
 router.post('/productSelect', (req, res) => {
   const { barcode } = req.body;
-    con.query('SELECT ProductID, ProductName FROM products WHERE ProductID = ?', [barcode], (err, result) => {
+  currentCon.query('SELECT ProductID, ProductName FROM products WHERE ProductID = ?', [barcode], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error executing query');
@@ -33,7 +97,7 @@ router.post('/productSelect', (req, res) => {
 // uses the barcode from the frontend to select an ingredient from the database
 router.post('/ingredientSelect', (req, res) => {
   const { barcode } = req.body;
-    con.query('SELECT IngredientID, IngredientName FROM ingredients WHERE IngredientID = ?', [barcode], (err, result) => {
+    currentCon.query('SELECT IngredientID, IngredientName FROM ingredients WHERE IngredientID = ?', [barcode], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error executing query');
@@ -47,7 +111,7 @@ router.post('/ingredientSelect', (req, res) => {
 router.post('/getProductId', (req, res) => {
   const { productName } = req.body;
   console.log('Product Name:', productName);
-  con.query('SELECT ProductID From products WHERE ProductName = ?', [productName], (err, result) => {
+  currentCon.query('SELECT ProductID From products WHERE ProductName = ?', [productName], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error executing query');
@@ -61,7 +125,7 @@ router.post('/getProductId', (req, res) => {
 router.post('/getIngredientId', (req, res) => {
   const { ingredientName } = req.body;
 
-  con.query('SELECT IngredientID FROM ingredients WHERE IngredientName = ?', [ingredientName], (err, result) => {
+  currentCon.query('SELECT IngredientID FROM ingredients WHERE IngredientName = ?', [ingredientName], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error executing query');
@@ -71,16 +135,34 @@ router.post('/getIngredientId', (req, res) => {
   });
 });
 
-// uses the product ID to get the ingredients from the database using the fetchIngredientsFromDB method
-router.post('/getIngredients', async (req, res) => {
-  try {
-    const ingredients = await fetchIngredientsFromDB(req.body.productId);
-    res.json(ingredients); // Send to frontend
-  } 
-  catch (err) {
-    console.error(err);
-    res.status(500).send('Database error');
-  }
+// uses the product ID to get the ingredients from the database
+router.post('/getIngredients', (req, res) => {
+  const { productId } = req.body;
+  // grabs the ingredient IDs based on the productID
+  currentCon.query('SELECT IngredientID FROM product_ingredients WHERE ProductID = ?', [productId], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error executing query');
+    } else {
+      res.json(result);
+    }
+
+    // formats the ingredient IDs into an array
+    const ingredientIds = result.map(row => row.IngredientID);
+    console.log('Ingredient IDs:', ingredientIds);
+
+    // grabs the ingredient names based on the ingredient IDs
+    currentCon.query('SELECT IngredientName FROM ingredients WHERE IngredientID IN (?)', [ingredientIds], (err, ingredients) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error fetching ingredients');
+      }
+
+      // returns the ingredient names to the frontend
+      console.log('Ingredients:', ingredients);
+      res.json(ingredients);
+    });
+  });
 });
 
 // adds a productid with a corresponding ingredientid to product_ingredients
@@ -88,7 +170,7 @@ router.post('/addIngredientToProduct', (req, res) => {
   const { ProductID, IngredientID } = req.body;
   // console.log('Product ID:', product, 'Ingredient ID:', ingredient);
   
-  con.query('INSERT INTO product_ingredients (ProductID, IngredientID) VALUES (?, ?)', [ProductID, IngredientID], (err, result) => {
+  currentCon.query('INSERT INTO product_ingredients (ProductID, IngredientID) VALUES (?, ?)', [ProductID, IngredientID], (err, result) => {
   if (err) {
     console.error(err);
     res.status(500).send('Error adding ingredient to product');
@@ -103,7 +185,7 @@ router.post('/addIngredientToProduct', (req, res) => {
 router.post('/removeIngredientFromProduct', (req, res) => {
   const { ProductID, IngredientID } = req.body;
 
-  con.query('DELETE FROM product_ingredients WHERE ProductID = ? AND IngredientID = ?', [ProductID, IngredientID], (err, result) => {
+  currentCon.query('DELETE FROM product_ingredients WHERE ProductID = ? AND IngredientID = ?', [ProductID, IngredientID], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error removing ingredient from product');
@@ -114,10 +196,11 @@ router.post('/removeIngredientFromProduct', (req, res) => {
   });
 });
 
+// adds a new ingredient to the database
 router.post('/insertNewIngredient', (req, res) => {
   const { IngredientID, IngredientName } = req.body;
 
-  con.query('INSERT INTO ingredients (IngredientID, IngredientName) VALUES (?,?)', [IngredientID, IngredientName], (err, result) => {
+  currentCon.query('INSERT INTO ingredients (IngredientID, IngredientName) VALUES (?,?)', [IngredientID, IngredientName], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error inserting new ingredient');
@@ -127,44 +210,6 @@ router.post('/insertNewIngredient', (req, res) => {
     }
   });
 });
-
-router.get('/ingredients/:productId', async (req, res) => {
-  const { productId } = req.params;
-  try {
-    const ingredients = await processIngredients(productId);
-    res.json({ success: true, ingredients });
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Error fetching ingredients', error: err.message });
-  }
-});
-
-//method that gets the ingredients
-const fetchIngredientsFromDB = (productId) => {
-  return new Promise((resolve, reject) => {
-    //first query
-    con.query(
-      'SELECT IngredientID FROM product_ingredients WHERE ProductID = ?',
-      [productId],
-      (err, result) => {
-        if (err) return reject(err);
-
-        const ingredientIds = result.map(row => row.IngredientID);
-        console.log('Ingredient IDs:', ingredientIds);
-
-        //second query 
-        con.query(
-          'SELECT IngredientName FROM ingredients WHERE IngredientID IN (?)',
-          [ingredientIds],
-          (err, ingredients) => {
-            if (err) reject(err);
-            else resolve(ingredients);
-          }
-        );
-      }
-    );
-  });
-};
-
 
 // starts the database connection when the server starts
 // exports current module as well as method to get ingredients  
