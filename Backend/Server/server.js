@@ -25,10 +25,13 @@ app.use('/api', userRouter);
 //api endpoint for getting AI processed ingredients
 app.post('/api/process-ingredients', async (req, res) => {
   try {
+    console.log('Received productId:', req.body.productId); // Log incoming ID
     const { productId } = req.body;
     const processedIngredients = await processIngredientsWithAI(productId);
-    res.json(processedIngredients);
-  } catch (err) {
+    console.log(processedIngredients)
+    res.json('Processed ingredients:', processedIngredients);
+  } 
+  catch (err) {
     console.error('Error processing ingredients:', err);
     res.status(500).json({ error: 'Failed to process ingredients' });
   }

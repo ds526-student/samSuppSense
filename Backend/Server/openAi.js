@@ -1,12 +1,13 @@
 const { fetchIngredientsFromDB } = require('./database.js');
 
+console.log('Imported fetch function:', typeof fetchIngredientsFromDB);
   // call the function in database.js
 async function processIngredientsWithAI(productId) {
   try {
 
     // use the variable ingredients to do any processing (the variable should be a json)
-    ingredients = await fetchIngredientsFromDB(productId);
-    
+    let ingredients = await fetchIngredientsFromDB(productId);
+    console.log(ingredients);
 
     // process the ingredients with OpenAI api
     const processedIngredients = [];
@@ -30,8 +31,6 @@ async function processIngredientsWithAI(productId) {
       console.error('Database error:', err);
       throw err;
     }
-
-    
   }
 
 async function useOpenAIForSummary(ingredient) {
@@ -39,6 +38,7 @@ async function useOpenAIForSummary(ingredient) {
   // this is just a placehlder so that it returns something
   return "Sample summary for " + ingredient;
 }
+
 module.exports = {
   processIngredientsWithAI
 };

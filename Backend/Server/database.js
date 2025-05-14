@@ -76,7 +76,8 @@ router.post('/getIngredients', async (req, res) => {
   try {
     const ingredients = await fetchIngredientsFromDB(req.body.productId);
     res.json(ingredients); // Send to frontend
-  } catch (err) {
+  } 
+  catch (err) {
     console.error(err);
     res.status(500).send('Database error');
   }
@@ -140,7 +141,7 @@ router.get('/ingredients/:productId', async (req, res) => {
 //method that gets the ingredients
 const fetchIngredientsFromDB = (productId) => {
   return new Promise((resolve, reject) => {
-    // First query: Get IngredientIDs
+    //first query
     con.query(
       'SELECT IngredientID FROM product_ingredients WHERE ProductID = ?',
       [productId],
@@ -150,7 +151,7 @@ const fetchIngredientsFromDB = (productId) => {
         const ingredientIds = result.map(row => row.IngredientID);
         console.log('Ingredient IDs:', ingredientIds);
 
-        // Second query: Get IngredientNames
+        //second query 
         con.query(
           'SELECT IngredientName FROM ingredients WHERE IngredientID IN (?)',
           [ingredientIds],
@@ -165,8 +166,6 @@ const fetchIngredientsFromDB = (productId) => {
 };
 
 
-
 // starts the database connection when the server starts
-
 // exports current module as well as method to get ingredients  
-module.exports = router;
+module.exports = router;  
