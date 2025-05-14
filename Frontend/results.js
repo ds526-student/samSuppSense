@@ -10,6 +10,7 @@ if (queryResult && queryResult.length > 0) {
     resultsDiv.appendChild(data);
     
     fetchIngredients();
+    getIngredientSummary();
 } 
 else {
     resultsDiv.textContent = 'No results found.';
@@ -32,12 +33,13 @@ async function fetchIngredients() {
             alert('Failed to fetch ingredient IDs(Response not OK)');
         }
 
-        const ingredients = await response.json(); // retrieves the ingredient IDs from the server
+        const ingredients = await response.json(); 
 
         // displays the ingredients
         displayIngredients(ingredients);
 
-    } catch (error) {
+    } 
+    catch (error) {
         console.log(error);
         alert('Error fetching ingredient IDs(results.js)');
     }
@@ -62,7 +64,7 @@ async function fetchIngredients() {
 //     }
 // }
 
-//gets ai summary of the ingredients
+
 async function getIngredientSummary(productId) {
   try {
     const response = await fetch('/api/process-ingredients', {
@@ -72,7 +74,7 @@ async function getIngredientSummary(productId) {
       },
       body: JSON.stringify({ productId })
     });
-
+    
     if (!response.ok) {
       throw new Error('Failed to fetch ingredient summaries');
     }
@@ -90,12 +92,13 @@ async function getIngredientSummary(productId) {
 // Updated display function to handle the new structure
 function displayIngredients(ingredients) {
     const ingredientsDiv = document.getElementById('results');
-    ingredientsDiv.innerHTML = ''; // Clear previous results
+    //clear previous results
+    ingredientsDiv.innerHTML = ''; 
 
     if (ingredients && ingredients.length > 0) {
         ingredients.forEach(ingredient => {
             // Create container for each ingredient
-            const ingredientContainer = document.createElement('div');
+            const ingredientContainer = document.createElement('p');
             ingredientContainer.className = 'ingredient-item';
             
             // Add name
@@ -114,7 +117,8 @@ function displayIngredients(ingredients) {
             ingredientContainer.appendChild(summaryElement);
             ingredientsDiv.appendChild(ingredientContainer);
         });
-    } else {
+    } 
+    else {
         const noIngredients = document.createElement('p');
         noIngredients.textContent = 'No ingredients found.';
         ingredientsDiv.appendChild(noIngredients);
