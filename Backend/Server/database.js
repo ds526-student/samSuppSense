@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
-
 // information for connecting to the database
 let currentCon = mysql.createConnection({
   host: "localhost",
-  user: "guest",
+  user: "root",
   password: "",
   database: "mcdonaldstest"
 });
@@ -142,9 +141,7 @@ router.post('/getIngredients', (req, res) => {
   currentCon.query('SELECT IngredientID FROM product_ingredients WHERE ProductID = ?', [productId], (err, result) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error executing query');
-    } else {
-      res.json(result);
+      return res.status(500).send('Error fetching ingredient IDs(database.js)');
     }
 
     // formats the ingredient IDs into an array
@@ -212,5 +209,4 @@ router.post('/insertNewIngredient', (req, res) => {
 });
 
 // starts the database connection when the server starts
-// exports current module as well as method to get ingredients  
-module.exports = router;  
+module.exports = router;

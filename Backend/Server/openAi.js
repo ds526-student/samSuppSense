@@ -1,37 +1,53 @@
-const { fetchIngredientsFromDB } = require('./database.js');
+const express = require('express');
+const router = express.Router();
 
-console.log('Imported fetch function:', typeof fetchIngredientsFromDB);
-  // call the function in database.js
-async function processIngredientsWithAI(productId) {
+
+
+// uses the product ID to get the ingredients from the database
+router.post('/getIngredients', async (req, res) => {
   try {
+    const { productId } = req.body;
 
-    // use the variable ingredients to do any processing (the variable should be a json)
-    let ingredients = await fetchIngredientsFromDB(productId);
-    console.log(ingredients);
+    // grabs the ingredient IDs based on the productID
+    currentCon.query('SELECT IngredientID FROM product_ingredients WHERE ProductID = ?', [productId], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error fetching ingredient IDs(database.js)');
+      }
 
-    // process the ingredients with OpenAI api
-    const processedIngredients = [];
+      // formats the ingredient IDs into an array
+      const ingredientIds = result.map(row => row.IngredientID);
+      console.log('Ingredient IDs:', ingredientIds);
 
-    //unpacking the json
-    for(const ingredient of ingredients){
-      //call method defined below to get summary
-      const summary = await useOpenAIForSummary(ingredient.IngredientName);
+      // grabs the ingredient names based on the ingredient IDs
+      currentCon.query('SELECT IngredientName FROM ingredients WHERE IngredientID IN (?)', [ingredientIds], async (err, ingredients) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Error fetching ingredients');
+        }
 
-      //adds formatted ingredients to the processedIngredients slist
-      processedIngredients.push({
-        //formats the ingredient and the summary
-        name: ingredient.IngredientName,
-        summary
+        const summarisedIngredients = [];
+        for (const ingredient of ingredients) {
+          summarisedIngredients.push({
+            name: ingredient.IngredientName,
+            summary: await useOpenAIForSummary(ingredient.IngredientName)
+          });
+        }
+
+        //returns the ingredient names to the frontend
+        console.log('Ingredients with summaries:', summarisedIngredients);
+        res.json(summarisedIngredients);
       });
-    }
-
-      return processedIngredients;
-    } 
-    catch (err) {
-      console.error('Database error:', err);
-      throw err;
-    }
+    });
+  } catch (error) {
+    console.error("Server error:", error);
+    res.status(500).json({
+      error: "Failed to fetch ingredients",
+      details: error.message  // Send error details as JSON
+    });
   }
+});
+
 
 async function useOpenAIForSummary(ingredient) {
   // impelemnt openAI api here and then return the processed string
@@ -39,6 +55,4 @@ async function useOpenAIForSummary(ingredient) {
   return "Sample summary for " + ingredient;
 }
 
-module.exports = {
-  processIngredientsWithAI
-};
+module.exports = router;

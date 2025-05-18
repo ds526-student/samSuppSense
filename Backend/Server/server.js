@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const { processIngredientsWithAI } = require('./openAi'); // Import the service
 
 
 const app = express();
@@ -14,28 +13,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-
 //serve static frontend files
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
 //import and use routes api
 const userRouter = require('./database');  
-app.use('/api', userRouter); 
+//const openAIRouter = require('./openAi');
 
-//api endpoint for getting AI processed ingredients
-app.post('/api/process-ingredients', async (req, res) => {
-  try {
-    console.log('Received productId:', req.body.productId); // Log incoming ID
-    const { productId } = req.body;
-    const processedIngredients = await processIngredientsWithAI(productId);
-    console.log(processedIngredients)
-    res.json('Processed ingredients:', processedIngredients);
-  } 
-  catch (err) {
-    console.error('Error processing ingredients:', err);
-    res.status(500).json({ error: 'Failed to process ingredients' });
-  }
-});
+app.use('/api/db', userRouter);  
+//app.use('/api/ai', openAIRouter); 
 
 //start server 
 app.listen(PORT, () => console.log(`App available at http://localhost:${PORT}`));
