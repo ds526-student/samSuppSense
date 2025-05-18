@@ -1,5 +1,9 @@
 // retrieve the result from the local storage
+//queryResult is an array holding (productId, productName)
 const queryResult = JSON.parse(localStorage.getItem('queryResult'));
+alert(JSON.stringify( queryResult ))
+let ingredients = null;
+
 
 // display result
 const resultsDiv = document.getElementById('results');
@@ -10,6 +14,7 @@ if (queryResult && queryResult.length > 0) {
     resultsDiv.appendChild(data);
 
     fetchIngredients();
+    fetchSummary();
 } else {
     resultsDiv.textContent = 'No results found.';
 }
@@ -19,7 +24,7 @@ async function fetchIngredients() {
     try {
         const productId = queryResult[0].ProductID; // retrieves the productID
         // sends a POST request to the server with the productID
-        const response = await fetch('http://localhost:3000/api/getIngredients', {
+        const response = await fetch('api/db/getIngredients', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,15 +36,41 @@ async function fetchIngredients() {
             alert('Failed to fetch ingredient IDs(Response not OK)');
         }
 
-        const ingredients = await response.json(); // retrieves the ingredient IDs from the server
-
+        ingredients = await response.json(); // retrieves the ingredient IDs from the server
+        alert(JSON.stringify(ingredients))
         // displays the ingredients
         displayIngredients(ingredients);
+        
 
     } catch (error) {
         console.log(error);
         alert('Error fetching ingredient IDs(results.js)');
     }
+}
+
+async function fetchSummary(){
+
+    try {
+        const response = await fetch('api/ai/processProductData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ingredients),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();  // Get error details
+            alert(errorData.error || 'Failed to fetch summaries');
+        }
+
+        const ingredientsWithSummaries = await response.json(); 
+        alert(JSON.stringify(ingredientsWithSummaries));
+    } catch (error) {
+        console.log(error);
+        alert('Error fetching summary (results.js)');
+    }
+     
 }
 
 // displays the ingredients in the results div

@@ -16,10 +16,10 @@ app.use(express.json());
 
 //import and use routes api
 const userRouter = require('./database');  
-//const openAIRouter = require('./openAi');
+const openAIRouter = require('./openAi');
 
-app.use('/api', userRouter);  
-//app.use('/apiAi', openAIRouter); 
+app.use('/api/db', userRouter);  
+app.use('/api/ai', openAIRouter); 
 
 
 //serve static frontend files

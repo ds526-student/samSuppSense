@@ -210,5 +210,5 @@ router.post('/insertNewIngredient', (req, res) => {
   });
 });
 
-// starts the database connection when the server starts
+//starts the database connection when the server starts
 module.exports = router;
