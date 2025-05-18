@@ -18,7 +18,7 @@ app.use(express.json());
 const userRouter = require('./database');  
 //const openAIRouter = require('./openAi');
 
-app.use('/apiDb', userRouter);  
+app.use('/api', userRouter);  
 //app.use('/apiAi', openAIRouter); 
 
 

@@ -19,7 +19,7 @@ async function fetchIngredients() {
     try {
         const productId = queryResult[0].ProductID; // retrieves the productID
         // sends a POST request to the server with the productID
-        const response = await fetch('http://localhost:3000/apiDb/getIngredients', {
+        const response = await fetch('http://localhost:3000/api/getIngredients', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
