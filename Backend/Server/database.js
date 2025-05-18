@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
+
 // information for connecting to the database
 let currentCon = mysql.createConnection({
   host: "localhost",
@@ -9,6 +10,7 @@ let currentCon = mysql.createConnection({
   password: "",
   database: "mcdonaldstest"
 });
+
 
 // connect to the database
 currentCon.connect(function(err) {
