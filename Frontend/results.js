@@ -8,11 +8,9 @@ if (queryResult && queryResult.length > 0) {
     const data = document.createElement('p'); // creates a new paragraph element
     data.textContent = `Product Name: ${product.ProductName}`;
     resultsDiv.appendChild(data);
-    
+
     fetchIngredients();
-    getIngredientSummary();
-} 
-else {
+} else {
     resultsDiv.textContent = 'No results found.';
 }
 
@@ -33,95 +31,30 @@ async function fetchIngredients() {
             alert('Failed to fetch ingredient IDs(Response not OK)');
         }
 
-        const ingredients = await response.json(); 
+        const ingredients = await response.json(); // retrieves the ingredient IDs from the server
 
         // displays the ingredients
         displayIngredients(ingredients);
 
-    } 
-    catch (error) {
+    } catch (error) {
         console.log(error);
         alert('Error fetching ingredient IDs(results.js)');
     }
 }
 
-//old display method
-
-// // displays the ingredients in the results div
-// function displayIngredients(ingredients) {
-//     const ingredientsDiv = document.getElementById('results');
-
-//     if (ingredients && ingredients.length > 0) {
-//         ingredients.forEach(ingredient => {
-//             const ingredientItem = document.createElement('p');
-//             ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
-//             ingredientsDiv.appendChild(ingredientItem);
-//         });
-//     } else {
-//         const noIngredients = document.createElement('p');
-//         ingredientsDiv.textContent = 'No ingredients found.';
-//         ingredientsDiv.appendChild(noIngredients);
-//     }
-// }
-
-
-async function getIngredientSummary(productId) {
-  try {
-    const response = await fetch('/api/process-ingredients', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId })
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch ingredient summaries');
-    }
-    
-    const data = await response.json();
-    displayIngredients(data); 
-    
-    console.log('Processed ingredients:', data);
-  } catch (error) {
-    console.error('Error:', error);
-    alert(error.message); 
-  }
-}
-
-// Updated display function to handle the new structure
+// displays the ingredients in the results div
 function displayIngredients(ingredients) {
     const ingredientsDiv = document.getElementById('results');
-    //clear previous results
-    ingredientsDiv.innerHTML = ''; 
 
     if (ingredients && ingredients.length > 0) {
         ingredients.forEach(ingredient => {
-            // Create container for each ingredient
-            const ingredientContainer = document.createElement('p');
-            ingredientContainer.className = 'ingredient-item';
-            
-            // Add name
-            const nameElement = document.createElement('p');
-            nameElement.textContent = `Ingredient: ${ingredient.name}`;
-            nameElement.className = 'ingredient-name';
-            
-            // Add summary
-            const summaryElement = document.createElement('p');
-            summaryElement.textContent = `Summary: ${ingredient.summary}`;
-            summaryElement.className = 'ingredient-summary';
-            summaryElement.style.fontStyle = 'italic';
-            
-            // Append to container
-            ingredientContainer.appendChild(nameElement);
-            ingredientContainer.appendChild(summaryElement);
-            ingredientsDiv.appendChild(ingredientContainer);
+            const ingredientItem = document.createElement('p');
+            ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+            ingredientsDiv.appendChild(ingredientItem);
         });
-    } 
-    else {
+    } else {
         const noIngredients = document.createElement('p');
-        noIngredients.textContent = 'No ingredients found.';
+        ingredientsDiv.textContent = 'No ingredients found.';
         ingredientsDiv.appendChild(noIngredients);
     }
 }
-
