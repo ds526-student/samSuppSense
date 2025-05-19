@@ -7,14 +7,19 @@ function getIngredientSummary(ingredientName) {
 }
 
 // POST endpoint to process ingredients
-router.post('/api/ai/processProductData', (req, res) => {
+router.post('/processProductData', (req, res) => {
     try {
+        console.log("openai module reached");
         // 1. Get the array of ingredients from frontend
         const ingredients = req.body; // Expects [{ "IngredientName": "Beef" }, ...]
 
+        
         // 2. Validate input
         if (!Array.isArray(ingredients)) {
             return res.status(400).json({ error: "Expected an array of ingredients" });
+        }
+        else{
+            console.log(ingredients);
         }
 
         const summaries = [];
