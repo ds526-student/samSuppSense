@@ -48,13 +48,69 @@ function displayIngredients(ingredients) {
 
     if (ingredients && ingredients.length > 0) {
         ingredients.forEach(ingredient => {
+            const ingredientContainer = document.createElement('div');
+            ingredientContainer.style.display = 'flex';
+            ingredientContainer.style.justifyContent = 'space-between'
+            ingredientContainer.style.alignItems = 'center'
+            ingredientContainer.style.marginBottom = '10px'
+
             const ingredientItem = document.createElement('p');
             ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
-            ingredientsDiv.appendChild(ingredientItem);
+
+            const ingredientButton = document.createElement("button");
+            ingredientButton.textContent = "display information:";
+
+            const infoText = document.getElementById("infoText");
+
+            ingredientButton.onclick = () => updateButton(ingredient, infoText)
+                
+            
+
+
+            ingredientContainer.appendChild(ingredientItem);
+            ingredientContainer.appendChild(ingredientButton);
+
+            ingredientsDiv.append(ingredientContainer);
+
         });
     } else {
         const noIngredients = document.createElement('p');
         ingredientsDiv.textContent = 'No ingredients found.';
         ingredientsDiv.appendChild(noIngredients);
+    }
+}
+
+async function updateButton(ingredient, text){
+    text.textContent = "Loading...";
+
+    try {
+        const info = await getSummaryFromOpenAI([ingredient.IngredientName]); // pass as array
+        text.textContent = info;
+    } catch (error) {
+        text.textContent = "Failed to get info.";
+        console.error(error);
+    }
+
+}
+
+
+async function getSummaryFromOpenAI(ingredients) {
+    const prompt = `Summarize the effects of the following ingredients on the human body: ${ingredients.join(', ')}`;
+
+    try {
+    const response = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+        {
+            role: 'user',
+            content: prompt,
+        },
+        ],
+    });
+
+    return response.choices[0].message.content;
+    } catch (error) {
+        console.error('[openAi.js] Error from OpenAI:', error.response?.data || error.message || error);
+        throw error;
     }
 }
