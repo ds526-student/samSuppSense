@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config();
+
 const OpenAI = require('openai');
 const client = new OpenAI({apiKey: process.env.OpenAI_API_KEY,}); 
-
 
 async function getIngredientSummary(ingredient) {
   const prompt = `Summarize the effects of the following ingredient on the human body: ${ingredient}. Keep it under 3 lines.`;
