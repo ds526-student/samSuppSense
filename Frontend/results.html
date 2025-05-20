@@ -18,21 +18,35 @@
                 align-items: flex-start;
                 flex-wrap: wrap;
                 justify-content: center;
+                height: 75vh;
             ">
-                <div id="results" style="flex: 1; min-width: 300px;">
+                <div id="results" style="
+                flex: 1;
+                overflow-y: auto;
+                border: 5px solid black;
+                padding: 10px;
+                box-sizing: border-box;
+                min-width: 300px;
+                height: 100%;">
+                
                     
                 </div>
         
                 <div id="textbox" style="
-                    font-size: 30px;
                     border: 5px solid black;
                     padding: 20px;
                     flex: 1;
                     min-width: 250px;
                     max-width: 400px;
                     height: 100%;
+                    overflow-y: auto;
+                    box-sizing: border-box; 
                 ">
-                    <p id="infoText"></p>
+                    <div id="infoText" style="
+                    white-space: pre-wrap;
+                    overflow-y: auto;
+                    height: 100%;
+                    "></div>
                 </div>
             </div>
         

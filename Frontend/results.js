@@ -50,24 +50,18 @@ function displayIngredients(ingredients) {
         ingredients.forEach(ingredient => {
             const ingredientContainer = document.createElement('div');
             ingredientContainer.style.display = 'flex';
-            ingredientContainer.style.justifyContent = 'space-between'
-            ingredientContainer.style.alignItems = 'center'
-            ingredientContainer.style.marginBottom = '10px'
-
-            const ingredientItem = document.createElement('p');
-            ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+            ingredientContainer.style.justifyContent = 'space-between';
+            ingredientContainer.style.alignItems = 'center';
+            ingredientContainer.style.marginBottom = '10px';
 
             const ingredientButton = document.createElement("button");
-            ingredientButton.textContent = "display information:";
+            ingredientButton.className = "ingredientButtons"
+            ingredientButton.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
 
             const infoText = document.getElementById("infoText");
 
-            ingredientButton.onclick = () => updateButton(ingredient, infoText)
-                
-            
+            ingredientButton.onclick = () => updateButton(ingredient, infoText);
 
-
-            ingredientContainer.appendChild(ingredientItem);
             ingredientContainer.appendChild(ingredientButton);
 
             ingredientsDiv.append(ingredientContainer);
@@ -80,37 +74,45 @@ function displayIngredients(ingredients) {
     }
 }
 
-async function updateButton(ingredient, text){
-    text.textContent = "Loading...";
+async function updateButton(ingredient, textContainer) {
+
+    const entry = document.createElement("div");
+    textContainer.appendChild(entry)
+
+    const buttons = document.querySelectorAll(".ingredientButtons")
+
+    buttons.forEach(btn => btn.disabled = true);
+    
 
     try {
-        const info = await getSummaryFromOpenAI([ingredient.IngredientName]); // pass as array
-        text.textContent = info;
+        const info = ingredient.IngredientName;
+
+        const response = await fetch('/api/summary', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: info }) 
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch summary from server.");
+        }
+
+        const data = await response.json();
+
+        entry.innerHTML = `
+        <hr>
+        <p <strong style ="color:#FF0000;">Ingredient:</strong><span style="font-weight: bold; color: #007bff;">${ingredient.IngredientName}</span></p>
+        <p style="margin-top: 5px;">${data.summary || "No summary found."}</p>
+        `;
+
+        textContainer.scrollTop = textContainer.scrollHeight;
     } catch (error) {
-        text.textContent = "Failed to get info.";
+        textContainer.textContent = "Failed to get info.";
         console.error(error);
     }
 
-}
+    buttons.forEach(btn => btn.disabled = false);
 
-
-async function getSummaryFromOpenAI(ingredients) {
-    const prompt = `Summarize the effects of the following ingredients on the human body: ${ingredients.join(', ')}`;
-
-    try {
-    const response = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-        {
-            role: 'user',
-            content: prompt,
-        },
-        ],
-    });
-
-    return response.choices[0].message.content;
-    } catch (error) {
-        console.error('[openAi.js] Error from OpenAI:', error.response?.data || error.message || error);
-        throw error;
-    }
 }

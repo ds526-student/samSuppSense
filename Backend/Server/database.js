@@ -5,9 +5,9 @@ const mysql = require('mysql');
 // information for connecting to the database
 let currentCon = mysql.createConnection({
   host: "localhost",
-  user: "guest",
+  user: "root",
   password: "",
-  database: "mcdonaldstest"
+  database: "suppsense"
 });
 
 // connect to the database
@@ -23,7 +23,7 @@ const newConnection = mysql.createConnection({
   host: "localhost",
   user: username,
   password: password,
-  database: "mcdonaldstest"
+  database: "suppsense"
 });
 
   newConnection.connect(function(err) {
