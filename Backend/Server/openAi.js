@@ -1,16 +1,48 @@
-const OpenAI = require('openai');
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const express = require('express');
+const router = express.Router();
 
-async function getSummaryFromOpenAI(ingredients, papers) {
-  const formatted = papers.map(p => `Title: ${p.title}\nAbstract: ${p.abstract}`).join('\n\n');
-  const prompt = `Summarize the effects of the following ingredients on the human body: ${ingredients.join(', ')}\n\nUse the following research papers:\n\n${formatted}`;
-
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: [{ role: 'user', content: prompt }],
-  });
-
-  return response.choices[0].message.content;
+//@-------use this method to do any Ai processing-------
+function getIngredientSummary(ingredientName) {
+    return `Summary for ${ingredientName}: This is a placeholder summary that will be replaced with actual information about the ingredient.`;
 }
 
-module.exports = { getSummaryFromOpenAI };
+// POST endpoint to process ingredients
+router.post('/processProductData', (req, res) => {
+    try {
+        console.log("openai module reached");
+        //gets the array of ingredients from frontend. The formatting is something like [{ "IngredientName": "Beef" }, etcetc..]
+        const ingredients = req.body; 
+
+        if (!Array.isArray(ingredients)) {
+            return res.status(400).json({ error: "Expected an array of ingredients" });
+        }
+        else{
+            console.log(ingredients);
+        }
+
+        //loop to put the summaries into an array
+        const summaries = [];
+        for (let i = 0; i < ingredients.length; i++) {
+            const name = ingredients[i].IngredientName;
+            summaries.push({
+                ingredient: name,
+                summary: getIngredientSummary(name)
+            });
+        }
+
+        //send response back to frontend
+        res.json({
+            success: true,
+            data: summaries
+        });
+
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ 
+            success: false,
+            error: "Internal server error" 
+        });
+    }
+});
+
+module.exports = router;

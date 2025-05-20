@@ -2,13 +2,15 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
+
 // information for connecting to the database
 let currentCon = mysql.createConnection({
   host: "localhost",
-  user: "guest",
+  user: "root",
   password: "",
   database: "mcdonaldstest"
 });
+
 
 // connect to the database
 currentCon.connect(function(err) {
@@ -208,5 +210,5 @@ router.post('/insertNewIngredient', (req, res) => {
   });
 });
 
-// starts the database connection when the server starts
+//starts the database connection when the server starts
 module.exports = router;

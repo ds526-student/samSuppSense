@@ -2,7 +2,7 @@ document.getElementById('submit').addEventListener('click', async () => {
     const barcode = document.getElementById('inputText').value;
     
     try {
-        const response = await fetch('http://localhost:3000/api/productSelect', {
+        const response = await fetch('api/db/productSelect', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
