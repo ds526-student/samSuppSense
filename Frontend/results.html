@@ -3,15 +3,28 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SuppSense</title>
+        <title>SuppSense - Results</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
-            <h1>SuppSense</h1>
-            <h2>Results</h2>
-            <div id="results">
-            </div>
-            <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
+        <div class="container">
+            <main class="main-content">
+                <h1 class="logo">SuppSense</h1>
+                <h2 class="subtitle">Results</h2>
+                
+                <div class="results-section">
+                    <div id="results" class="results-container">
+                        <!-- Results will be dynamically inserted here -->
+                    </div>
+                    
+                    <button id="back" 
+                            class="button secondary-button" 
+                            onclick="window.location.href='index.html';">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </button>
+                </div>
+            </main>
         </div>
         <script src="results.js"></script>
     </body>

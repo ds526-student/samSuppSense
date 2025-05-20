@@ -3,34 +3,90 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SuppSense</title>
+        <title>SuppSense - Input Data</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
-        <div id="login">
-            <label for="username"><b>Username</b></label>
-            <input id="usernameText" placeholder="Enter Username">
+        <div class="container">
+            <!-- Login Section -->
+            <div class="auth-section" id="login">
+                <div class="input-group">
+                    <label for="usernameText" class="input-label">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input id="usernameText" 
+                           class="input-field" 
+                           placeholder="Enter Username"
+                           type="text">
+                </div>
 
-            <label for="psw"><b>Password</b></label>
-            <input id="passwordText" placeholder="Enter Password">
+                <div class="input-group">
+                    <label for="passwordText" class="input-label">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input id="passwordText" 
+                           class="input-field" 
+                           placeholder="Enter Password"
+                           type="password">
+                </div>
 
-            <button id="login">Login</button>
-            <button id="logout">Logout</button>
-        </div>
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; padding-top: -200px;">
-            <h1>SuppSense</h1>
-            <h2>Input Data here</h2>
-            <div id="Input"></div>
-            <input type="text" id="inputProduct" placeholder="New or existing product name" list="productList" style="width: 300px; height: 30px">
-            <button id="load" style="width: 100px; height: 30px; margin-top: 10px;">Load</button>
-
-            <input type="text" id="inputIngredient" placeholder="Add or Remove ingredient" list="ingredientList" style="width: 300px; height: 30px">
-            <button id="Add" style="width: 100px; height: 30px; margin-top: 10px;">Add</button>
-            <button id="Remove" style="width: 100px; height: 30px; margin-top: 10px;">Remove</button>
-
-            <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
-            <div id="output" style="margin-top: 20px;">
+                <div class="button-group">
+                    <button id="loginBtn" class="button primary-button">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button id="logoutBtn" class="button secondary-button">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
             </div>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <h1 class="logo">SuppSense</h1>
+                <h2 class="subtitle">Input Data</h2>
+                
+                <div class="input-section">
+                    <div id="Input" class="input-feedback"></div>
+                    
+                    <div class="input-group">
+                        <input type="text" 
+                               id="inputProduct" 
+                               class="input-field" 
+                               placeholder="New or existing product name" 
+                               list="productList">
+                        <button id="load" class="button primary-button">
+                            <i class="fas fa-sync-alt"></i> Load
+                        </button>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" 
+                               id="inputIngredient" 
+                               class="input-field" 
+                               placeholder="Add or Remove ingredient" 
+                               list="ingredientList">
+                        <div class="button-group">
+                            <button id="Add" class="button primary-button">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                            <button id="Remove" class="button secondary-button">
+                                <i class="fas fa-minus"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="back" 
+                            class="button secondary-button" 
+                            onclick="window.location.href='index.html';">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+
+                    <div id="output" class="output-container"></div>
+                </div>
+            </main>
         </div>
+        
         <datalist id="productList"></datalist>
         <datalist id="ingredientList"></datalist>
         <script src="input.js"></script>
