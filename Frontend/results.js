@@ -80,13 +80,71 @@ function displayIngredients(ingredients) {
 
     if (ingredients && ingredients.length > 0) {
         ingredients.forEach(ingredient => {
-            const ingredientItem = document.createElement('p');
-            ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
-            ingredientsDiv.appendChild(ingredientItem);
+            const ingredientContainer = document.createElement('div');
+            ingredientContainer.style.display = 'flex';
+            ingredientContainer.style.justifyContent = 'space-between';
+            ingredientContainer.style.alignItems = 'center';
+            ingredientContainer.style.marginBottom = '10px';
+
+            const ingredientButton = document.createElement("button");
+            ingredientButton.className = "ingredientButtons"
+            ingredientButton.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+
+            const infoText = document.getElementById("infoText");
+
+            ingredientButton.onclick = () => updateButton(ingredient, infoText);
+
+            ingredientContainer.appendChild(ingredientButton);
+
+            ingredientsDiv.append(ingredientContainer);
+
         });
     } else {
         const noIngredients = document.createElement('p');
         ingredientsDiv.textContent = 'No ingredients found.';
         ingredientsDiv.appendChild(noIngredients);
     }
+}
+
+async function updateButton(ingredient, textContainer) {
+
+    const entry = document.createElement("div");
+    textContainer.appendChild(entry)
+
+    const buttons = document.querySelectorAll(".ingredientButtons")
+
+    buttons.forEach(btn => btn.disabled = true);
+    
+
+    try {
+        const info = ingredient.IngredientName;
+
+        const response = await fetch('/api/summary', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: info }) 
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch summary from server.");
+        }
+
+        const data = await response.json();
+
+        entry.innerHTML = `
+        <hr>
+        <p <strong style ="color:#FF0000;">Ingredient:</strong><span style="font-weight: bold; color: #007bff;">${ingredient.IngredientName}</span></p>
+        <p style="margin-top: 5px;">${data.summary || "No summary found."}</p>
+        `;
+
+        textContainer.scrollTop = textContainer.scrollHeight;
+    } catch (error) {
+        textContainer.textContent = "Failed to get info.";
+        console.error(error);
+    }
+
+    buttons.forEach(btn => btn.disabled = false);
+
 }

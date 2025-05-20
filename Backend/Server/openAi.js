@@ -9,6 +9,7 @@ async function getIngredientSummary(ingredient) {
   const prompt = `Summarize the effects of the following ingredient on the human body: ${ingredient}. Keep it under 3 lines.`;
 
   const response = await client.chat.completions.create({
+  const response = await client.chat.completions.create({
     model: 'gpt-4',
     messages: [{ role: 'user', content: prompt }],
   });
