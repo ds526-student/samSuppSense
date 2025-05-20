@@ -1,48 +1,43 @@
 const express = require('express');
 const router = express.Router();
+require('dotenv').config();
+const OpenAI = require('openai');
+const client = new OpenAI({apiKey: process.env.OpenAI_API_KEY,}); 
 
-//@-------use this method to do any Ai processing-------
-function getIngredientSummary(ingredientName) {
-    return `Summary for ${ingredientName}: This is a placeholder summary that will be replaced with actual information about the ingredient.`;
+
+async function getIngredientSummary(ingredient) {
+  const prompt = `Summarize the effects of the following ingredient on the human body: ${ingredient}. Keep it under 3 lines.`;
+
+  const response = await client.chat.completions.create({
+    model: 'gpt-4',
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  return response.choices[0].message.content;
 }
 
-// POST endpoint to process ingredients
-router.post('/processProductData', (req, res) => {
-    try {
-        console.log("openai module reached");
-        //gets the array of ingredients from frontend. The formatting is something like [{ "IngredientName": "Beef" }, etcetc..]
-        const ingredients = req.body; 
+//endpoint to process ingredients
+router.post('/processProductData', async (req, res) => {
+     try {
+        const { text } = req.body;
+        console.log("Summary requested for:", text);
 
-        if (!Array.isArray(ingredients)) {
-            return res.status(400).json({ error: "Expected an array of ingredients" });
-        }
-        else{
-            console.log(ingredients);
+        if (!text) {
+            return res.status(400).json({ error: 'No text provided' });
         }
 
-        //loop to put the summaries into an array
-        const summaries = [];
-        for (let i = 0; i < ingredients.length; i++) {
-            const name = ingredients[i].IngredientName;
-            summaries.push({
-                ingredient: name,
-                summary: getIngredientSummary(name)
-            });
-        }
+        const summary = await getIngredientSummary(text);
+        console.log("Generated summary: " + summary); 
 
-        //send response back to frontend
-        res.json({
-            success: true,
-            data: summaries
-        });
+        res.json({ summary });
 
     } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ 
-            success: false,
-            error: "Internal server error" 
-        });
+        console.error("Summary generation error: " + error); 
+        res.status(500).json({ error: 'Failed to generate summary' });
     }
 });
 
 module.exports = router;
+
+
+
