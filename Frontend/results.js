@@ -49,30 +49,30 @@ async function fetchIngredients() {
     }
 }
 
-async function fetchSummary(){
+// async function fetchSummary(){
 
-    try {
-        const response = await fetch('api/ai/processProductData', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(ingredients),
-        });
+//     try {
+//         const response = await fetch('api/ai/processProductData', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(ingredients),
+//         });
 
-        if (!response.ok) {
-            const errorData = await response.json();  
-            alert(errorData.error || 'Failed to fetch summaries');
-        }
+//         if (!response.ok) {
+//             const errorData = await response.json();  
+//             alert(errorData.error || 'Failed to fetch summaries');
+//         }
 
-        const ingredientsWithSummaries = await response.json(); 
-        alert(JSON.stringify(ingredientsWithSummaries));
-    } catch (error) {
-        console.log(error);
-        alert('Error fetching summary (results.js)');
-    }
+//         const ingredientsWithSummaries = await response.json(); 
+//         alert(JSON.stringify(ingredientsWithSummaries));
+//     } catch (error) {
+//         console.log(error);
+//         alert('Error fetching summary (results.js)');
+//     }
      
-}
+// }
 
 // displays the ingredients in the results div
 function displayIngredients(ingredients) {
@@ -119,7 +119,7 @@ async function updateButton(ingredient, textContainer) {
     try {
         const info = ingredient.IngredientName;
 
-        const response = await fetch('/api/summary', {
+        const response = await fetch('/api/ai/processProductData', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
