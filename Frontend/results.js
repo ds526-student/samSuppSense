@@ -41,31 +41,24 @@ async function fetchIngredients() {
         alert(JSON.stringify(ingredients))
         // displays the ingredients
         displayIngredients(ingredients);
-
         
 
     } catch (error) {
         console.log(error);
         alert('Error fetching ingredient IDs(results.js)');
-
     }
 }
 
 async function fetchSummary(){
 
     try {
-
         const response = await fetch('api/ai/processProductData', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            //ingredients is null here
             body: JSON.stringify(ingredients),
-            
         });
-
-        alert('data sent to openAI: ' + JSON.stringify(ingredients))
 
         if (!response.ok) {
             const errorData = await response.json();  
@@ -74,7 +67,6 @@ async function fetchSummary(){
 
         const ingredientsWithSummaries = await response.json(); 
         alert(JSON.stringify(ingredientsWithSummaries));
-        //displayIngredients(ingredientsWithSummaries);
     } catch (error) {
         console.log(error);
         alert('Error fetching summary (results.js)');
