@@ -8,7 +8,7 @@ let currentCon = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "mcdonaldstest"
+  database: "suppsense"
 });
 
 
@@ -25,7 +25,7 @@ const newConnection = mysql.createConnection({
   host: "localhost",
   user: username,
   password: password,
-  database: "mcdonaldstest"
+  database: "suppsense"
 });
 
   newConnection.connect(function(err) {

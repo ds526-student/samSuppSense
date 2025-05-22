@@ -6,12 +6,53 @@
         <title>SuppSense</title>
     </head>
     <body>
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+        <div style="display: flex; flex-direction: column; align-items: center; height: 100vh; justify-content: center;">
             <h1>SuppSense</h1>
             <h2>Results</h2>
-            <div id="results">
+            <div style="
+                display: flex;
+                flex-direction: row;
+                gap: 40px;
+                max-width: 90vw;
+                width: clamp(600px, 80%, 1000px);
+                align-items: flex-start;
+                flex-wrap: wrap;
+                justify-content: center;
+                height: 75vh;
+            ">
+                <div id="results" style="
+                flex: 1;
+                overflow-y: auto;
+                border: 5px solid black;
+                padding: 10px;
+                box-sizing: border-box;
+                min-width: 300px;
+                height: 100%;">
+                
+                    
+                </div>
+        
+                <div id="textbox" style="
+                    border: 5px solid black;
+                    padding: 20px;
+                    flex: 1;
+                    min-width: 250px;
+                    max-width: 400px;
+                    height: 100%;
+                    overflow-y: auto;
+                    box-sizing: border-box; 
+                ">
+                    <div id="infoText" style="
+                    white-space: pre-wrap;
+                    overflow-y: auto;
+                    height: 100%;
+                    "></div>
+                </div>
             </div>
-            <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
+        
+            <button id="back" style="width: 100px; height: 30px; margin-top: 30px;" onclick="window.location.href='index.html';">
+                Back
+            </button>
         </div>
         <script src="results.js"></script>
     </body>

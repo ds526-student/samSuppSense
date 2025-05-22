@@ -3,7 +3,6 @@ const path = require('path');
 const cors = require('cors');
 
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -23,7 +22,8 @@ app.use('/api/ai', openAIRouter);
 
 
 //serve static frontend files
-app.use(express.static(path.join(__dirname, '../../frontend')));
+app.use(express.static(path.join(__dirname, '../../Frontend')));
+
 
 
 //start server 
