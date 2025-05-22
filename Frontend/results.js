@@ -38,7 +38,6 @@ async function fetchIngredients() {
         }
 
         ingredients = await response.json(); // retrieves the ingredient IDs from the server
-        alert(JSON.stringify(ingredients))
         // displays the ingredients
         displayIngredients(ingredients);
         
@@ -80,23 +79,23 @@ function displayIngredients(ingredients) {
 
     if (ingredients && ingredients.length > 0) {
         ingredients.forEach(ingredient => {
-            const ingredientContainer = document.createElement('div');
-            ingredientContainer.style.display = 'flex';
-            ingredientContainer.style.justifyContent = 'space-between';
-            ingredientContainer.style.alignItems = 'center';
-            ingredientContainer.style.marginBottom = '10px';
-
+            // create a button for each ingredient
             const ingredientButton = document.createElement("button");
             ingredientButton.className = "ingredientButtons"
             ingredientButton.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+            ingredientButton.style.display = 'flex';
+            ingredientButton.style.justifyContent = 'space-between';
+            ingredientButton.style.alignItems = 'center';
+            ingredientButton.style.marginBottom = '10px';
 
+            // get a reference to the info textbox
             const infoText = document.getElementById("infoText");
 
+            // when the button gets clicked run the update button function
             ingredientButton.onclick = () => updateButton(ingredient, infoText);
 
-            ingredientContainer.appendChild(ingredientButton);
-
-            ingredientsDiv.append(ingredientContainer);
+            // add the button tot he ingredientsDiv
+            ingredientsDiv.append(ingredientButton);
 
         });
     } else {
@@ -108,43 +107,74 @@ function displayIngredients(ingredients) {
 
 async function updateButton(ingredient, textContainer) {
 
+    // create a div to store the information for each message
     const entry = document.createElement("div");
+    // add the entry to the textbox
     textContainer.appendChild(entry)
 
+    // disable all the buttons once a button has been pressed
     const buttons = document.querySelectorAll(".ingredientButtons")
-
     buttons.forEach(btn => btn.disabled = true);
     
 
     try {
-        const info = ingredient.IngredientName;
-
-        const response = await fetch('/api/ai/processProductData', {
+        const ingredientName = ingredient.IngredientName;
+        
+        // try to get the message from the database
+        let dbResponse = await fetch('/api/db/getMessage',{
             method: 'POST',
-            headers: {
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({IngredientName: ingredientName})
+        });
+        
+        const dbData = await dbResponse.json();
+
+        let summary;
+        
+        console.log("it actually gets here");
+        // if that fails response would not exist
+        if(dbData.exists){
+            summary = dbData.message;
+        }else{
+            const response = await fetch('/api/ai/processProductData', {
+                method: 'POST',
+                headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ text: info }) 
-        });
+                body: JSON.stringify({ text: ingredientName }) 
+            });
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch summary from server.");
+            if (!response.ok) {
+                throw new Error("Failed to fetch summary from server.");
+            }
+
+            const aiData = await response.json(); 
+            summary = aiData.summary;
+
+            // add it to the database
+            await fetch('/api/db/addEntryToMessages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ IngredientName: ingredientName, Message: summary })
+            });
         }
 
-        const data = await response.json();
 
+        // add the information to the entry
         entry.innerHTML = `
         <hr>
-        <p <strong style ="color:#FF0000;">Ingredient:</strong><span style="font-weight: bold; color: #007bff;">${ingredient.IngredientName}</span></p>
-        <p style="margin-top: 5px;">${data.summary || "No summary found."}</p>
+        <p <strong style ="color:#FF0000;">Ingredient:</strong><span style="font-weight: bold; color: #007bff;">${ingredientName}</span></p>
+        <p style="margin-top: 5px;">${summary || "No summary found."}</p>
         `;
 
+        // scroll to the top (would actually go to the bottom which is the latest)
         textContainer.scrollTop = textContainer.scrollHeight;
     } catch (error) {
         textContainer.textContent = "Failed to get info.";
         console.error(error);
     }
 
+    // re-enable all of the buttons
     buttons.forEach(btn => btn.disabled = false);
 
 }
