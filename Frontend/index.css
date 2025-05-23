@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+
+
+body{
+background-color: #f2f0ef;
+}
+#main {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 40px;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    max-width: 90vw;
+    margin: auto;
+    margin-top: 10vh;
+}
+
+#logo{
+    margin-bottom: 5vh;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: rgb(226, 176, 110);
+    padding: 1vh;
+    border-bottom: 5px solid black;
+}
+
+#inputText{
+    border: none;
+    border-bottom: 3px solid rgb(226, 176, 110);
+    background-color: #f2f0ef;
+    margin-bottom: 2vh;
+    transition: transform 0.1s ease;
+}
+
+#inputText:hover{
+    border-bottom: 3px solid black;
+    transform: scale(1.1);
+}
+
+#inputText:focus{
+    outline: none;
+}
+
+
+#submit{
+    margin-bottom: 5vh;
+    font-size: 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color:rgb(226, 176, 110) ;
+    color: white;
+    border: none;
+    width: 15vh;
+    height: 4vh;
+    transition: transform 0.1s ease;
+    border-bottom: 3px solid transparent;
+}
+
+#submit:hover{
+    border-bottom: 3px solid black;
+    transform: scale(1.1);
+}
+
+#qrCodeReader {
+    width: 300px;
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+}
+
+#management {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(226, 176, 110); /* <--- Change this to any color you like */
+    font-size: 4vh;
+    margin-top: 1vh;
+    margin-left: 1vh;
+    transition: transform 0.5s ease ;
+}
+
+#management:hover {
+    color: black; /* Optional hover color */
+    transform: rotate(180deg);
+}
+

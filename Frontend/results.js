@@ -1,7 +1,7 @@
 // retrieve the result from the local storage
 //queryResult is an array holding (productId, productName)
 const queryResult = JSON.parse(localStorage.getItem('queryResult'));
-alert(JSON.stringify( queryResult ))
+//alert(JSON.stringify( queryResult ))
 
 // display result
 const resultsDiv = document.getElementById('results');
@@ -163,7 +163,7 @@ async function updateButton(ingredient, textContainer) {
         // add the information to the entry
         entry.innerHTML = `
         <hr>
-        <p <strong style ="color:#FF0000;">Ingredient:</strong><span style="font-weight: bold; color: #007bff;">${ingredientName}</span></p>
+        <p <strong style ="color:#FF0000;">Ingredient:</strong><span style="font-weight: bold; color: rgb(226, 176, 110);">${ingredientName}</span></p>
         <p style="margin-top: 5px;">${summary || "No summary found."}</p>
         `;
 

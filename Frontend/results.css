@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+
+
+body{
+    background-color: #f2f0ef;
+    margin: 0;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh;
+}
+
+h1{
+    margin-bottom: 5vh;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: rgb(226, 176, 110);
+    padding: 1vh;
+    border-bottom: 5px solid black;
+}
+
+#main {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center; 
+    padding: 10px;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90vw;
+    height: 95vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#resultsDiv{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    flex: 1;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+#results{
+    flex: 1;
+    overflow-y: auto;
+    border: 5px solid black;
+    padding: 8px;
+    box-sizing: border-box;
+    min-width: 300px;
+    max-width: 45%;
+    height: 100%;
+    min-height: 200px;
+}
+
+#textbox{
+    border: 5px solid black;
+    padding: 15px;
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box; 
+}
+
+#infoText{
+    white-space: pre-wrap;
+    overflow-y: auto;
+    height: 100%;
+}
+
+
+
+button{
+    margin-bottom: 5vh;
+    font-size: 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color:rgb(226, 176, 110) ;
+    color: white;
+    border: none;
+    width: 100%;
+    height: auto;
+    transition: transform 0.1s ease;
+    border-bottom: 3px solid transparent;
+}
+
+button:hover{
+    border-bottom: 3px solid black;
+    transform: scale(1.01);
+}
+
+button:disabled{
+    opacity: 0.5;
+}
