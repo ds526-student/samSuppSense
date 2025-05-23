@@ -75,6 +75,17 @@ function displayMessage(ingredient){
 if (submitButton) {
     submitButton.addEventListener('click', saveMessageChanges);
 }
+if(exitButton){
+    exitButton.addEventListener('click', exitMessage);
+}
+
+function exitMessage(){
+    currentIngredient = null;
+    textBox.value = null;
+    const buttons = document.querySelectorAll(".ingredientButtons")
+    buttons.forEach(btn => btn.disabled = false);
+}
+
 
 async function saveMessageChanges(){
     if (!currentIngredient) {
@@ -103,15 +114,16 @@ async function saveMessageChanges(){
 
         if(response.ok){
             console.log("Message updated successfully");
-            //reload the page
-            location.reload();
         }else{
             console.log("Failed to save message")
         }
     }catch(error){
         console.error("error " , error);
     }
-    
+    // reset the textbox and reenable the buttons
+    textBox.value = null;
+    const buttons = document.querySelectorAll(".ingredientButtons")
+    buttons.forEach(btn => btn.disabled = false);
 }
 
 
