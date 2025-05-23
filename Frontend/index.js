@@ -1,3 +1,27 @@
+function onScanSuccess(decodedText, decodedResult) {
+    console.log(`Code matched = ${decodedText}`, decodedResult);
+
+    // Autofill input and simulate a submit click
+    const input = document.getElementById('inputText');
+    input.value = decodedText;
+
+    document.getElementById('submit').click();
+
+}
+
+
+function onScanFailure(error) {
+  // handle scan failure, usually better to ignore and keep scanning.
+  // for example:
+    console.warn(`Code scan error = ${error}`);
+}
+
+let html5QrcodeScanner = new Html5QrcodeScanner(
+    "qrCodeReader",
+    { fps: 10, qrbox: {width: 250, height: 250} },
+  /* verbose= */ false);
+html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
 document.getElementById('submit').addEventListener('click', async () => {
     const barcode = document.getElementById('inputText').value;
     
@@ -21,4 +45,4 @@ document.getElementById('submit').addEventListener('click', async () => {
         console.error(error);
         alert('Error fetching product data');
     }
-    });
+});
