@@ -8,8 +8,9 @@ const resultsDiv = document.getElementById('results');
 if (queryResult && queryResult.length > 0) {
     const product = queryResult[0]; // sets a variable equal to the product name
     const data = document.createElement('p'); // creates a new paragraph element
+    data.id ="productName"
     data.textContent = `Product Name: ${product.ProductName}`;
-    resultsDiv.appendChild(data);
+    document.getElementById("main").insertBefore(data, document.getElementById("resultsDiv"));
 
     //run fetch ingredients then fetch summary in order
     fetchIngredients().then(fetchSummary).catch(error => {
@@ -109,6 +110,7 @@ async function updateButton(ingredient, textContainer) {
 
     // create a div to store the information for each message
     const entry = document.createElement("div");
+    entry.className = "entry"
     // add the entry to the textbox
     textContainer.appendChild(entry)
 
@@ -163,8 +165,8 @@ async function updateButton(ingredient, textContainer) {
         // add the information to the entry
         entry.innerHTML = `
         <hr>
-        <p <strong style ="color:#FF0000;">Ingredient:</strong><span style="font-weight: bold; color: rgb(226, 176, 110);">${ingredientName}</span></p>
-        <p style="margin-top: 5px;">${summary || "No summary found."}</p>
+        <h3 class ="ingredientResultName"> Ingredient: ${ingredientName}</h3>
+        <p class="ingredientResultText">${summary || "No summary found."}</p>
         `;
 
         // scroll to the top (would actually go to the bottom which is the latest)

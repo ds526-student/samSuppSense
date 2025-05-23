@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
-
+@import url('./colors.css');
 
 
 body{
-background-color: #f2f0ef;
+background-color: var(--background-color);
 }
 #main {
     display: flex;
@@ -11,34 +11,51 @@ background-color: #f2f0ef;
     justify-content: center; 
     align-items: center; 
     padding: 40px;
-    background-color: #ffffff;
-    border: 2px solid #ccc;
     border-radius: 10px;
+    border: 2px solid #ccc;
+    background-color: var(--secondaryBackground-color);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: fit-content;
     max-width: 90vw;
     margin: auto;
     margin-top: 10vh;
+    transition: transform 1s ease;
+}
+
+#main:hover{
+    border: 2px solid var(--accent-color);
+    transform: scale(1.1);
+
 }
 
 #logo{
     margin-bottom: 5vh;
     font-family: 'Roboto Condensed', sans-serif;
-    background-color: rgb(226, 176, 110);
+    background-color: var(--primary-color);
     padding: 1vh;
-    border-bottom: 5px solid black;
+    border-bottom: 5px solid var(--secondary-color);
+    color: var(--text-color);
+    transition: transform 1s ease;
+
+}
+
+#logo:hover{
+    background-color: var(--accent-color);
+    transform: scale(1.3) rotate(360deg);
+    border-bottom: 5px solid var(--primary-color);
 }
 
 #inputText{
     border: none;
-    border-bottom: 3px solid rgb(226, 176, 110);
-    background-color: #f2f0ef;
+    border-bottom: 3px solid var(--primary-color);
     margin-bottom: 2vh;
     transition: transform 0.1s ease;
+    background-color: var(--secondaryBackground-color);
+    color: var(--text-color);
 }
 
 #inputText:hover{
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid var(--accent-color);
     transform: scale(1.1);
 }
 
@@ -51,18 +68,19 @@ background-color: #f2f0ef;
     margin-bottom: 5vh;
     font-size: 20px;
     font-family: 'Roboto Condensed', sans-serif;
-    background-color:rgb(226, 176, 110) ;
-    color: white;
+    font-weight: bolder;
+    background-color:var(--primary-color) ;
+    color: var(--text-color);
     border: none;
     width: 15vh;
     height: 4vh;
     transition: transform 0.1s ease;
-    border-bottom: 3px solid transparent;
 }
 
 #submit:hover{
-    border-bottom: 3px solid black;
     transform: scale(1.1);
+    color: var(--background-color);
+    background-color: var(--accent-color);
 }
 
 #qrCodeReader {
@@ -72,14 +90,19 @@ background-color: #f2f0ef;
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    background-color: #fff;
+    transition: transform 0.2s ease;
+
+}
+
+#qrCodeReader:hover{
+    transform: scale(1.1);
 }
 
 #management {
     background: none;
     border: none;
     cursor: pointer;
-    color: rgb(226, 176, 110); /* <--- Change this to any color you like */
+    color: var(--secondary-color);
     font-size: 4vh;
     margin-top: 1vh;
     margin-left: 1vh;
@@ -87,7 +110,36 @@ background-color: #f2f0ef;
 }
 
 #management:hover {
-    color: black; /* Optional hover color */
+    color: var(--accent-color);
+    transform: rotate(180deg);
+
+}
+
+#theme-toggle{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--secondary-color);
+    font-size: 4vh;
+    margin-top: 1vh;
+    margin-left: 1vh;
+    transition: transform 0.5s ease ;
+}
+
+#theme-toggle:hover{
+    color: var(--accent-color);
     transform: rotate(180deg);
 }
 
+#html5-qrcode-button-camera-permission{
+    padding: 1vh ;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+
+}
+
+
+*{
+    transition: all 1s ease-in-out;
+}
