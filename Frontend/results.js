@@ -8,7 +8,7 @@ const resultsDiv = document.getElementById('results');
 if (queryResult && queryResult.length > 0) {
     const product = queryResult[0]; // sets a variable equal to the product name
     const data = document.createElement('p'); // creates a new paragraph element
-    data.textContent = `Product Name: ${product.ProductName}`;
+    data.textContent = `${product.ProductName}`;
     resultsDiv.appendChild(data);
 
     //run fetch ingredients then fetch summary in order
@@ -82,7 +82,7 @@ function displayIngredients(ingredients) {
             // create a button for each ingredient
             const ingredientButton = document.createElement("button");
             ingredientButton.className = "ingredientButtons"
-            ingredientButton.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+            ingredientButton.textContent = `${ingredient.IngredientName}`;
             ingredientButton.style.display = 'flex';
             ingredientButton.style.justifyContent = 'space-between';
             ingredientButton.style.alignItems = 'center';

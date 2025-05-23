@@ -3,7 +3,7 @@ fetchDataToAutoComplete();
 async function fetchDataToAutoComplete() {
     try {
         // fetches all the products from the database
-        const productResponse = await fetch('http://localhost:3000/api/getAllProducts', {
+        const productResponse = await fetch('/api/getAllProducts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ async function fetchDataToAutoComplete() {
         });
 
         //fetches all the ingredients from the database
-        const ingredientResponse = await fetch('http://localhost:3000/api/getAllIngredients', {
+        const ingredientResponse = await fetch('/api/getAllIngredients', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ document.getElementById('load').addEventListener('click', async () => {
     const productName = document.getElementById('inputProduct').value;
     
     try {
-        const response = await fetch('http://localhost:3000/api/getProductId', {
+        const response = await fetch('/api/getProductId', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ async function fetchIngredients() {
         const queryResult = JSON.parse(localStorage.getItem('queryResult'));
         const productId = queryResult[0].ProductID; // retrieves the productID
         // sends a POST request to the server with the productID
-        const response = await fetch('http://localhost:3000/api/getIngredients', {
+        const response = await fetch('/api/getIngredients', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ document.getElementById('Add').addEventListener('click', async () => {
 
     try {
         // finds the productID based on the product name in the text box
-        const productIdResponse = await fetch('http://localhost:3000/api/getProductId', {
+        const productIdResponse = await fetch('/api/getProductId', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ document.getElementById('Add').addEventListener('click', async () => {
         product = response[0].ProductID;
 
         // finds the ingredientID based on the ingredient name in the text box
-        const ingredientIdResponse = await fetch('http://localhost:3000/api/getIngredientId', {
+        const ingredientIdResponse = await fetch('/api/getIngredientId', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -147,12 +147,12 @@ document.getElementById('Add').addEventListener('click', async () => {
             console.log('While loop reached');
             let ingredientExists = true;
             while (ingredientExists) {
-                let barcode = generateBarcode(1000, 9999)
+                let barcode = generateBarcode(10000, 99999)
                 
                 console.log(barcode);
                 console.log('Checking for ingredient');
 
-                ingredientIdCheck = await fetch('http://localhost:3000/api/ingredientSelect', {
+                ingredientIdCheck = await fetch('/api/ingredientSelect', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ document.getElementById('Add').addEventListener('click', async () => {
                     console.log(barcode);
                     console.log(ingredientName);
 
-                    insertIngredientResponse = await fetch('http://localhost:3000/api/insertNewIngredient', {
+                    insertIngredientResponse = await fetch('/api/insertNewIngredient', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ document.getElementById('Add').addEventListener('click', async () => {
                     console.log('Inserted new ingredient', insertIngredientResponse);
 
                     // finds the ingredientID based on the ingredient name in the text box
-                    const ingredientIdSearch = await fetch('http://localhost:3000/api/getIngredientId', {
+                    const ingredientIdSearch = await fetch('/api/getIngredientId', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -199,7 +199,7 @@ document.getElementById('Add').addEventListener('click', async () => {
         ingredient = response[0].IngredientID;
 
         // adds the new ingredient to the product_ingredients table
-        const addResponse = await fetch('http://localhost:3000/api/addIngredientToProduct', {
+        const addResponse = await fetch('/api/addIngredientToProduct', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -223,7 +223,7 @@ document.getElementById('Remove').addEventListener('click', async() => {
 
     try {
         // finds the productID based on the name entered into the text box
-        const productIdResponse = await fetch('http://localhost:3000/api/getProductId', {
+        const productIdResponse = await fetch('/api/getProductId', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ document.getElementById('Remove').addEventListener('click', async() => {
         product = response[0].ProductID;
 
         // finds the ingredientID based on the ingredient name in the text box
-        const ingredientIdResponse = await fetch('http://localhost:3000/api/getIngredientId', {
+        const ingredientIdResponse = await fetch('/api/getIngredientId', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ document.getElementById('Remove').addEventListener('click', async() => {
         ingredient = response[0].IngredientID;
 
         // removes an ingredient from the product_ingredients table
-        const addResponse = await fetch('http://localhost:3000/api/removeIngredientFromProduct', {
+        const addResponse = await fetch('/api/removeIngredientFromProduct', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -271,12 +271,12 @@ function displayIngredients(ingredients) {
 
     if (ingredients && ingredients.length > 0) {
         const productItem = document.createElement('p');
-        productItem.textContent = `Product Name: ${document.getElementById('inputProduct').value}`;
+        productItem.textContent = `${document.getElementById('inputProduct').value}`;
         ingredientsDiv.appendChild(productItem);
 
         ingredients.forEach(ingredient => {
             const ingredientItem = document.createElement('p');
-            ingredientItem.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+            ingredientItem.textContent = `${ingredient.IngredientName}`;
             ingredientsDiv.appendChild(ingredientItem);
         });
     } else {
@@ -291,40 +291,10 @@ function generateBarcode(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-document.getElementById('login').addEventListener('click', async () => {
-    const username = document.getElementById('usernameText').value;
-    const password = document.getElementById('passwordText').value;
-
+    
+document.getElementById('back').addEventListener('click', async () => {
     try {
-        const loginResponse = await fetch('http://localhost:3000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
-
-        if (!loginResponse.ok) {
-            throw new Error('Login failed');
-        }
-
-        const loginResult = await loginResponse.json();
-        if (loginResult.success) {
-            alert('Login successful');
-            // Redirect to another page or perform other actions
-        } else {
-            alert('Login failed: ' + loginResult.message);
-        }
-    } catch (error) {
-        console.error(error);
-        alert('Error logging in');
-    }
-});
-
-document.getElementById('logout').addEventListener('click', async () => {
-    try {
-        const logoutResponse = await fetch('http://localhost:3000/api/logout', {
+        const logoutResponse = await fetch('/api/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
