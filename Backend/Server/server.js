@@ -24,7 +24,5 @@ app.use('/api/ai', openAIRouter);
 //serve static frontend files
 app.use(express.static(path.join(__dirname, '../../Frontend')));
 
-
-
 //start server 
 app.listen(PORT, () => console.log(`App available at http://localhost:${PORT}`));

@@ -25,7 +25,7 @@ const newConnection = mysql.createConnection({
   host: "localhost",
   user: username,
   password: password,
-  database: "suppsense"
+  database: "mcdonaldstest"
 });
 
   newConnection.connect(function(err) {
