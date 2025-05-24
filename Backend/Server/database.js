@@ -8,7 +8,7 @@ let currentCon = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "suppsense"
+  database: "mcdonaldstest"
 });
 
 
@@ -164,6 +164,17 @@ router.post('/getIngredients', (req, res) => {
   });
 });
 
+// gets all the ingredients and messages from the messages database
+router.post('/getAllMessages', (req, res) => {
+    currentCon.query('SELECT IngredientName, Message FROM Messages', (err, result) => {
+        if (err) {
+            console.error('Error querying all messages (SELECT IngredientName, Message):', err);
+            return res.status(500).json({ success: false, message: 'Error retrieving all messages.' });
+        }
+        res.json(result);
+    });
+});
+
 // adds a productid with a corresponding ingredientid to product_ingredients
 router.post('/addIngredientToProduct', (req, res) => {
   const { ProductID, IngredientID } = req.body;
@@ -209,6 +220,53 @@ router.post('/insertNewIngredient', (req, res) => {
     }
   });
 });
+
+//gets the message for the ingredient
+router.post('/getMessage', (req, res)=>{
+  const { IngredientName} = req.body;
+  currentCon.query('SELECT Message FROM Messages WHERE IngredientName = ?', [IngredientName], (err, result) =>{
+    if (err){
+      console.error("Error querying Messages Table:", err); // Log the error
+      return res.status(500).send("Error querying Messages Table");
+    }
+
+    if(result && result.length > 0){ // Check if result is not null/undefined AND has elements
+      return res.json({exists: true, message: result[0].Message});
+    } else {
+      return res.json({exists: false, message: null}); // Return exists: false if no data found
+    }
+  });
+});
+
+// insert a new message and ingredient to messages
+router.post('/addEntryToMessages', (req, res) =>{
+  const {IngredientName, Message} = req.body;
+  currentCon.query('INSERT INTO Messages (IngredientName, Message) VALUES (?, ?)', [IngredientName, Message], (err, result) =>{
+    if(err){
+      return res.status(500).send("Error Inserting Message");
+    }
+    return res.json({success: true});
+  });
+});
+
+// modify the message for the corresponding ingredient
+router.post('/modifyMessageForIngredient', (req, res) => {
+  const {IngredientName, Message} = req.body;
+  currentCon.query('UPDATE Messages SET Message = ? WHERE IngredientName = ?', [Message, IngredientName], (err, result) => {
+    if(err){
+      console.log("error updating message");
+      return res.status(500).json({success: false, message: 'failed to update message'});
+    }
+
+    if(result.affectedRows > 0){
+      res.json({success: true, message:'Message updated'});
+    }else{
+      res.status(404).json({success:false, message:'Message couldnt be found'})
+    }
+  });
+});
+
+
 
 //starts the database connection when the server starts
 module.exports = router;
