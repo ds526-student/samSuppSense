@@ -4,49 +4,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SuppSense</title>
+        <link rel="stylesheet" href="results.css">
+        <script src="themeLoader.js"></script>
     </head>
     <body>
-        <div style="display: flex; flex-direction: column; align-items: center; height: 100vh; justify-content: center;">
-            <h1>SuppSense</h1>
-            <h2>Results</h2>
-            <div style="
-                display: flex;
-                flex-direction: row;
-                gap: 40px;
-                max-width: 90vw;
-                width: clamp(600px, 80%, 1000px);
-                align-items: flex-start;
-                flex-wrap: wrap;
-                justify-content: center;
-                height: 75vh;
-            ">
-                <div id="results" style="
-                flex: 1;
-                overflow-y: auto;
-                border: 5px solid black;
-                padding: 10px;
-                box-sizing: border-box;
-                min-width: 300px;
-                height: 100%;">
+        <div id="main">
+            <h1 id="logo">SuppSense</h1>
+            <div id="resultsDiv">
+                <div id="results">
                 
                     
                 </div>
         
-                <div id="textbox" style="
-                    border: 5px solid black;
-                    padding: 20px;
-                    flex: 1;
-                    min-width: 250px;
-                    max-width: 400px;
-                    height: 100%;
-                    overflow-y: auto;
-                    box-sizing: border-box; 
-                ">
-                    <div id="infoText" style="
-                    white-space: pre-wrap;
-                    overflow-y: auto;
-                    height: 100%;
-                    "></div>
+                <div id="textbox">
+                    <div id="infoText"></div>
                 </div>
             </div>
         

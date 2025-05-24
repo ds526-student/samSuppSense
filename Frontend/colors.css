@@ -1,0 +1,19 @@
+:root {
+    --background-color:#ffffff;
+    --secondaryBackground-color:#ffffff;
+    --primary-color: #15b097;
+    --secondary-color: #1b4965;
+    --accent-color: #ff4a1c;
+    --text-color: #01121d;
+}
+
+
+[data-theme="dark"] {
+    --background-color: #01121d;
+    --secondaryBackground-color:#005994;
+    --primary-color: #1b4965;
+    --secondary-color: #15b097;
+    --accent-color: #ff4a1c;
+    --text-color: #ffffff;
+    transition: all 1s ease-in-out;
+}
