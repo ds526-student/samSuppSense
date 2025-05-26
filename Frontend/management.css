@@ -19,14 +19,13 @@ background-color: var(--background-color);
     max-width: 90vw;
     margin: auto;
     margin-top: 10vh;
-    transition: transform 1s ease;
-
+    transition: all .5s ease;
 }
 
 #main:hover{
     border: 2px solid var(--accent-color);
     transform: scale(1.1);
-
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.1);
 }
 
 h1{
@@ -37,13 +36,13 @@ h1{
     padding: 1vh;
     border-bottom: 5px solid var(--secondary-color);
     font-size: 30px;
-    transition: transform .5s ease;
+    transition: all .5s ease;
 
 }
 
 h1:hover{
+    transform: scale(1.1);
     background-color: var(--accent-color);
-    transform: scale(1.3) rotate(360deg);
     border-bottom: 5px solid var(--primary-color);
 }
 
@@ -58,8 +57,7 @@ button{
     width: 20vh;
     height: auto;
     padding: 5%;
-    transition: transform 0.1s ease;
-    border-bottom: 3px solid transparent;
+    transition: all 0.1s ease ;
 }
 
 button:hover{
