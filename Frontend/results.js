@@ -161,12 +161,14 @@ async function updateButton(ingredient, textContainer) {
             });
         }
 
+        const htmlSummary = converToHtml(summary);
+
 
         // add the information to the entry
         entry.innerHTML = `
         <hr>
         <h3 class ="ingredientResultName"> Ingredient: ${ingredientName}</h3>
-        <p class="ingredientResultText">${summary || "No summary found."}</p>
+        <p class="ingredientResultText">${htmlSummary || "No summary found."}</p>
         `;
 
         // scroll to the top (would actually go to the bottom which is the latest)
@@ -180,3 +182,11 @@ async function updateButton(ingredient, textContainer) {
     buttons.forEach(btn => btn.disabled = false);
 
 }
+
+
+// function to extract the links out of messages
+
+function converToHtml(text){
+  return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
