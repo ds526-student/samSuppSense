@@ -46,7 +46,6 @@ h1:hover{
 
 #main:hover{
     border: 2px solid var(--accent-color);
-    transform: scale(1.1);
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.1);
 }
 
@@ -154,3 +153,6 @@ button:hover {
 button:disabled {
     opacity: 0.5;
 }
+
+
+
