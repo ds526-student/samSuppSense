@@ -25,4 +25,7 @@ app.use('/api/ai', openAIRouter);
 app.use(express.static(path.join(__dirname, '../../Frontend')));
 
 //start server 
-app.listen(PORT, () => console.log(`App available at http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running at http://0.0.0.0:${PORT}`);
+  console.log(`Accessible via: http://13.211.191.145:${PORT}`);
+});
