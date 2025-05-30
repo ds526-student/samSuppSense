@@ -8,7 +8,7 @@ let currentCon = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "mcdonaldstest"
+  database: "samSuppSense"
 });
 
 
@@ -25,7 +25,7 @@ const newConnection = mysql.createConnection({
   host: "localhost",
   user: username,
   password: password,
-  database: "mcdonaldstest"
+  database: "samSuppSense"
 });
 
   newConnection.connect(function(err) {
@@ -44,7 +44,7 @@ router.post('/logout', (req, res) => {
     host: "localhost",
     user: "guest",
     password: "",
-    database: "mcdonaldstest"
+    database: "samSuppSense"
   });
 
   newConnection.connect(function(err) {
