@@ -344,6 +344,6 @@ document.getElementById('logout').addEventListener('click', async () => {
             alert('Logout failed: ' + logoutResult.message);
         }
     } catch (error) {
-        
+        console.error(error);
     }
 });

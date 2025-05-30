@@ -4,53 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="messages.css">
+    <script src="themeLoader.js"></script>
 </head>
 <body>
-    <div id="main" style="display: flex; flex-direction: column; align-items: center; height: 100vh; justify-content: center;">
-        <h2>SuppSense</h2>
+    <div id="main">
+        <h1>SuppSense</h1>
         <h2>Manage Messages</h2>
-        <div id="Content" style="display: flex;
-                flex-direction: row;
-                gap: 40px;
-                max-width: 90vw;
-                width: clamp(600px, 80%, 1000px);
-                align-items: flex-start;
-                flex-wrap: wrap;
-                justify-content: center;
-                height: 75vh;">
+        <div id="Content">
 
-                <div id="ingredientList" style="
-                flex: 1;
-                min-width: 250px; 
-                max-height: 100%;
-                overflow-y: auto;
-                border-right: 1px solid #eee;
-                padding-right: 20px;
-                box-sizing: border-box;
-                border: 5px solid black;
-                height: 100%;
-                ">
+                <div id="ingredientList">
 
                 </div>
-                <div id="messageEditor" style="
-                flex: 2; 
-                height: 100%;
-                min-width: 300px;
-                display: flex;
-                flex-direction: column;
-                padding-left: 20px;
-                box-sizing: border-box;
-                border: 5px solid black;
-                ">
+                <div id="messageEditor">
                     <h3>Select an ingredient to edit it</h3>
                     <textarea  id="MessageTextArea" placeholder="Click on an ingredient to edit it !" style=" resize: none; font-size: 20px; flex-grow: 1; width: 80%; box-sizing: border-box; margin: auto; display: block;"></textarea>
                     <button id="submitButton" >Submit</button>
-                    <button id="exitButton">exit</button>
+                    <button id="exitButton">Unselect</button>
                 </div>
 
 
                 </div>
-                <button id="back" style="width: 100px; height: 30px; margin-top: 30px;" onclick="window.location.href='index.html';">
+                <button id="back" onclick="window.location.href='management.html';">
                 Back
             </button>
     </div>

@@ -43,11 +43,7 @@ function displayIngredients(){
         const ingredientButton = document.createElement("button");
         ingredientButton.className = "ingredientButtons"
         ingredientButton.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
-        ingredientButton.style.display = 'flex';
-        ingredientButton.style.justifyContent = 'space-between';
-        ingredientButton.style.alignItems = 'center';
-        ingredientButton.style.marginBottom = '10px';
-        ingredientButton.style.width = '100%';
+
 
         // add button to the ingredients
         listDiv.append(ingredientButton);
