@@ -10,7 +10,7 @@ async function fetchDataToAutoComplete() {
             },
         });
 
-        products = await productResponse.json();   
+        products = await productResponse.json();
 
         // adds all the products to the product list
         products.forEach(product => {
@@ -45,18 +45,18 @@ async function fetchDataToAutoComplete() {
     }
 }
 
-document.getElementById('load').addEventListener('click', async () => {  
+document.getElementById('load').addEventListener('click', async () => {
     const productName = document.getElementById('inputProduct').value;
-    
+
     try {
         const response = await fetch('/api/getProductId', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productName }),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productName }),
         });
-    
+
         if (!response.ok) {
             throw new Error('Failed to fetch product data');
         }
@@ -96,7 +96,7 @@ async function fetchIngredients() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productId }), 
+            body: JSON.stringify({ productId }),
         });
 
         if (!response.ok) {
@@ -115,7 +115,7 @@ async function fetchIngredients() {
 }
 
 // adds an ingredient to the product
-document.getElementById('Add').addEventListener('click', async () => {  
+document.getElementById('Add').addEventListener('click', async () => {
     const productName = document.getElementById('inputProduct').value; // gets the product name from the text box
     const ingredientName = document.getElementById('inputIngredient').value; // gets the ingredient name from the text box
 
@@ -140,15 +140,15 @@ document.getElementById('Add').addEventListener('click', async () => {
             },
             body: JSON.stringify({ ingredientName }),
         });
-        
+
         response = await ingredientIdResponse.json();
-        
+
         if (response.length === 0 || !response[0].IngredientID) {
             console.log('While loop reached');
             let ingredientExists = true;
             while (ingredientExists) {
                 let barcode = generateBarcode(10000, 99999)
-                
+
                 console.log(barcode);
                 console.log('Checking for ingredient');
 
@@ -163,7 +163,7 @@ document.getElementById('Add').addEventListener('click', async () => {
                 console.log('Ingredient Checked', ingredientIdCheck);
                 response = await ingredientIdCheck.json();
                 console.log(response);
-    
+
                 if (response.length === 0) {
                     console.log('Inserting new ingredient')
                     console.log(barcode);
@@ -213,11 +213,11 @@ document.getElementById('Add').addEventListener('click', async () => {
         console.error(error);
         alert('Error adding ingredient to product');
     }
-    
+
 });
 
 // removes an ingredient from the product
-document.getElementById('Remove').addEventListener('click', async() => {
+document.getElementById('Remove').addEventListener('click', async () => {
     const productName = document.getElementById('inputProduct').value; // gets the product name from the text box
     const ingredientName = document.getElementById('inputIngredient').value; // gets the ingredient name from the text box
 
@@ -261,7 +261,7 @@ document.getElementById('Remove').addEventListener('click', async() => {
         console.error(error);
         alert('Error removing ingredient from product');
     }
-    
+
 });
 
 // displays the ingredients in the results div
@@ -276,6 +276,7 @@ function displayIngredients(ingredients) {
 
         ingredients.forEach(ingredient => {
             const ingredientItem = document.createElement('p');
+            ingredientItem.className = "existing_ingredient";
             ingredientItem.textContent = `${ingredient.IngredientName}`;
             ingredientsDiv.appendChild(ingredientItem);
         });
@@ -291,29 +292,5 @@ function generateBarcode(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-    
-document.getElementById('back').addEventListener('click', async () => {
-    try {
-        const logoutResponse = await fetch('/api/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
 
-        if (!logoutResponse.ok) {
-            throw new Error('Logout failed');
-        }
 
-        const logoutResult = await logoutResponse.json();
-
-        if (logoutResult.success) {
-            alert('Logout successful');
-            window.location.href = 'index.html';
-        } else {
-            alert('Logout failed: ' + logoutResult.message);
-        }
-    } catch (error) {
-        console.error(error);
-    }
-});

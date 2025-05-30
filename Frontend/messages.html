@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="messages.css">
     <script src="themeLoader.js"></script>
+    <script src="auth.js"></script>
+
 </head>
+
 <body>
     <div id="main">
         <h1>SuppSense</h1>
         <h2>Manage Messages</h2>
         <div id="Content">
 
-                <div id="ingredientList">
+            <div id="ingredientList">
 
-                </div>
-                <div id="messageEditor">
-                    <h3>Select an ingredient to edit it</h3>
-                    <textarea  id="MessageTextArea" placeholder="Click on an ingredient to edit it !" style=" resize: none; font-size: 20px; flex-grow: 1; width: 80%; box-sizing: border-box; margin: auto; display: block;"></textarea>
-                    <button id="submitButton" >Submit</button>
-                    <button id="exitButton">Unselect</button>
-                </div>
+            </div>
+            <div id="messageEditor">
+                <h3>Select an ingredient to edit it</h3>
+                <textarea id="MessageTextArea" placeholder="Click on an ingredient to edit it !"
+                    style=" resize: none; font-size: 20px; flex-grow: 1; width: 80%; box-sizing: border-box; margin: auto; display: block;"></textarea>
+                <button id="submitButton">Submit</button>
+                <button id="exitButton">Unselect</button>
+            </div>
 
 
-                </div>
-                <button id="back" onclick="window.location.href='management.html';">
-                Back
-            </button>
+        </div>
+        <button id="back" onclick="window.location.href='management.html';">
+            Back
+        </button>
     </div>
-    
-    
-        <script src="messages.js"></script>
+
+
+    <script src="messages.js"></script>
 </body>
+
 </html>

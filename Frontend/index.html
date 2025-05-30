@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SuppSense</title>
-        <link rel="stylesheet" href="index.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">        
-        <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    </head>
-    <body>
-        <button id="management" onclick="window.location.href='management.html';">
-            <i class="fas fa-cog"></i>
-        </button>
-        <button id="theme-toggle">
-            <i class="fa-solid fa-bomb"></i>
-        </button>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuppSense</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+
+<body>
+    <button id="management" onclick="window.location.href='management.html';">
+        <i class="fas fa-cog"></i>
+    </button>
+    <button id="theme-toggle">
+        <i class="fa-solid fa-bomb"></i>
+    </button>
 
 
-        <div id="main">
-            <h1 id="logo">SuppSense</h1>
-            <input type="text" id="inputText" placeholder="Enter the Barcode number here... " style="width: 300px; height: 30px">
-            <button id="submit" >Submit</button>
-            <div id="qrCodeReader" style="margin-top: 10px;"></div>
-        </div>
-        <script src="index.js"></script>
-    </body>
+    <div id="main">
+        <h1 id="logo">SuppSense</h1>
+        <input type="text" id="inputText" placeholder="Enter the Barcode number here... "
+            style="width: 300px; height: 30px">
+        <button id="submit">Submit</button>
+        <div id="qrCodeReader" style="margin-top: 10px;"></div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
 </html>

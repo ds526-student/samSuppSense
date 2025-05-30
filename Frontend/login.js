@@ -4,24 +4,28 @@ document.getElementById('login').addEventListener('click', async () => {
     const password = document.getElementById('passwordText').value;
 
     try {
-        const loginResponse = await fetch('/api/login', {
+
+        const response = await fetch('/api/getLogin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({ username, password }),
         });
 
-        if (!loginResponse.ok) {
+        if (!response.ok) {
             throw new Error('Login failed');
         }
 
-        const loginResult = await loginResponse.json();
+        const loginResult = await response.json();
         if (loginResult.success) {
-            alert('Login successful');
-            window.location.href = 'input.html';
+
+            console.log(document.cookie);
+
+            window.location.href = 'management.html';
             // Redirect to another page or perform other actions
-        } else {
+        } else if (!loginResult.success) {
             alert('Login failed: ' + loginResult.message);
             window.location.href = 'index.html';
         }
@@ -53,6 +57,8 @@ document.getElementById('logout').addEventListener('click', async () => {
             alert('Logout failed: ' + logoutResult.message);
         }
     } catch (error) {
-        
+
     }
 });
+
+
