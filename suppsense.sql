@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 20, 2025 at 03:54 AM
+-- Host: localhost
+-- Generation Time: May 22, 2025 at 06:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `samsuppsense`
+-- Database: `mcdonaldstest`
 --
 
 -- --------------------------------------------------------
@@ -80,6 +80,29 @@ INSERT INTO `ingredients` (`IngredientID`, `IngredientName`) VALUES
 (77453, 'Vitamin C (Ascorbic Acid)'),
 (86564, 'Tartrazine'),
 (95675, 'Sunset Yellow FCF');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Messages`
+--
+
+CREATE TABLE `Messages` (
+  `IngredientName` text NOT NULL,
+  `Message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `Messages`
+--
+
+INSERT INTO `Messages` (`IngredientName`, `Message`) VALUES
+('Caffeine (from tea and/or coffee beans)', 'Caffeine stimulates the nervous system, providing increased alertness and energy, but excessive intake can lead to insomnia, restlessness, and increased heart rate.'),
+('Creatine Monohydrate (Creapure®)', 'Creatine Monohydrate (Creapure®) enhances physical performance in successive bursts of short-term, high-intensity exercise and improves muscle recovery. It also aids in boosting lean muscle mass and strength.'),
+('Beta-Alanine (as CarnoSyn®)', 'Beta-Alanine (as CarnoSyn®) can enhance muscular endurance and improve exercise capacity, potentially leading to better workout performance. It may also cause tingling sensations in the skin.'),
+('Micronized L-Citrulline', 'Micronized L-Citrulline is an amino acid that can help increase nitric oxide production, improve blood flow, and reduce muscle fatigue, enhancing exercise performance and cardiovascular health.'),
+('Acetyl-L-Carnitine HCl', 'Acetyl-L-Carnitine HCl supports brain health, enhances mental focus and cognitive function by aiding in the production of acetylcholine, a key neurotransmitter. It also helps convert fat into energy in the body.'),
+('N-Acetyl-L-Tyrosine', 'N-Acetyl-L-Tyrosine is a supplement used to increase attention, motivation, and concentration. It\'s also believed to reduce stress levels. It works by boosting neurotransmitters in the brain, like dopamine and adrenaline.');
 
 -- --------------------------------------------------------
 
