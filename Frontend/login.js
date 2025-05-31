@@ -5,6 +5,8 @@ document.getElementById('login').addEventListener('click', async () => {
 
     try {
 
+        // send login request to the server       
+
         const response = await fetch('/api/getLogin', {
             method: 'POST',
             headers: {
@@ -19,15 +21,14 @@ document.getElementById('login').addEventListener('click', async () => {
         }
 
         const loginResult = await response.json();
+
+        // if the login is successful Redirect the user to the management page
         if (loginResult.success) {
-
-            console.log(document.cookie);
-
             window.location.href = 'management.html';
             // Redirect to another page or perform other actions
-        } else if (!loginResult.success) {
+        } else if (!loginResult.success) { // otherwise alert the user that it is wrong
             alert('Login failed: ' + loginResult.message);
-            window.location.href = 'index.html';
+
         }
     } catch (error) {
         console.error(error);
