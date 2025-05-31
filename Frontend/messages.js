@@ -7,7 +7,7 @@ const submitButton = document.getElementById("submitButton");
 let currentIngredient = null;
 
 // set the textbox to null if there is not current ingredient
-if(currentIngredient == null){
+if (currentIngredient == null) {
     textBox.value = null;
 }
 
@@ -16,11 +16,11 @@ let AllIngredients = [];
 
 async function fetchAllIngredients(params) {
 
-    try{
+    try {
         // get all ingredients in the database
-        const response = await fetch('/api/db/getAllMessages',{
+        const response = await fetch('/api/db/getAllMessages', {
             method: 'POST',
-            headers: {'Content-type': 'application/json'}
+            headers: { 'Content-type': 'application/json' }
         });
 
         // upload the array
@@ -28,17 +28,17 @@ async function fetchAllIngredients(params) {
         AllIngredients = data;
 
         // display all the ingredients
-        if(AllIngredients && AllIngredients.length > 0){
+        if (AllIngredients && AllIngredients.length > 0) {
             displayIngredients();
         }
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 }
 
-function displayIngredients(){
+function displayIngredients() {
     // for all the ingredients in the list
-    AllIngredients.forEach(ingredient =>{
+    AllIngredients.forEach(ingredient => {
         // create a button
         const ingredientButton = document.createElement("button");
         ingredientButton.className = "ingredientButtons"
@@ -54,7 +54,7 @@ function displayIngredients(){
 }
 
 
-function displayMessage(ingredient){
+function displayMessage(ingredient) {
     // sets the current ingredient
     currentIngredient = ingredient;
 
@@ -71,19 +71,21 @@ function displayMessage(ingredient){
 if (submitButton) {
     submitButton.addEventListener('click', saveMessageChanges);
 }
-if(exitButton){
+if (exitButton) {
     exitButton.addEventListener('click', exitMessage);
 }
 
-function exitMessage(){
+function exitMessage() {
+    // set the current ingredient to null and reset the textbox's value
     currentIngredient = null;
     textBox.value = null;
+    // re enable all the buttons
     const buttons = document.querySelectorAll(".ingredientButtons")
     buttons.forEach(btn => btn.disabled = false);
 }
 
 
-async function saveMessageChanges(){
+async function saveMessageChanges() {
     if (!currentIngredient) {
         return;
     }
@@ -94,27 +96,27 @@ async function saveMessageChanges(){
     // get ingredient name
     const ingredientName = currentIngredient.IngredientName;
 
-    try{
+    try {
         const response = await fetch('/api/db/modifyMessageForIngredient', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    IngredientName: ingredientName,
-                    Message: newMessage
-                }),
-            });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                IngredientName: ingredientName,
+                Message: newMessage
+            }),
+        });
 
         const result = await response.json();
 
-        if(response.ok){
+        if (response.ok) {
             console.log("Message updated successfully");
-        }else{
+        } else {
             console.log("Failed to save message")
         }
-    }catch(error){
-        console.error("error " , error);
+    } catch (error) {
+        console.error("error ", error);
     }
     // reset the textbox and reenable the buttons
     textBox.value = null;
