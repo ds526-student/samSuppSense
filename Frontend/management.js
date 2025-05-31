@@ -2,6 +2,7 @@
 document.getElementById('logout_button').addEventListener('click', async () => {
   try {
     // send a request the to the server to logout
+
     const logoutResponse = await fetch('/api/logout', {
       method: 'POST',
       headers: {

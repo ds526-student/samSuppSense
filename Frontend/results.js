@@ -8,15 +8,15 @@ const resultsDiv = document.getElementById('results');
 if (queryResult && queryResult.length > 0) {
     const product = queryResult[0]; // sets a variable equal to the product name
     const data = document.createElement('p'); // creates a new paragraph element
-    data.id ="productName"
+    data.id = "productName"
     data.textContent = `Product Name: ${product.ProductName}`;
     document.getElementById("main").insertBefore(data, document.getElementById("resultsDiv"));
 
     //run fetch ingredients then fetch summary in order
     fetchIngredients().then(fetchSummary).catch(error => {
-    console.error("Error in chain:", error);
+        console.error("Error in chain:", error);
     });
-} 
+}
 else {
     resultsDiv.textContent = 'No results found.';
 }
@@ -31,7 +31,7 @@ async function fetchIngredients() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ productId }), 
+            body: JSON.stringify({ productId }),
         });
 
         if (!response.ok) {
@@ -41,7 +41,7 @@ async function fetchIngredients() {
         ingredients = await response.json(); // retrieves the ingredient IDs from the server
         // displays the ingredients
         displayIngredients(ingredients);
-        
+
 
     } catch (error) {
         console.log(error);
@@ -71,7 +71,7 @@ async function fetchIngredients() {
 //         console.log(error);
 //         alert('Error fetching summary (results.js)');
 //     }
-     
+
 // }
 
 // displays the ingredients in the results div
@@ -83,7 +83,7 @@ function displayIngredients(ingredients) {
             // create a button for each ingredient
             const ingredientButton = document.createElement("button");
             ingredientButton.className = "ingredientButtons"
-            ingredientButton.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+            ingredientButton.textContent = `${ingredient.IngredientName}`;
             ingredientButton.style.display = 'flex';
             ingredientButton.style.justifyContent = 'space-between';
             ingredientButton.style.alignItems = 'center';
@@ -117,40 +117,40 @@ async function updateButton(ingredient, textContainer) {
     // disable all the buttons once a button has been pressed
     const buttons = document.querySelectorAll(".ingredientButtons")
     buttons.forEach(btn => btn.disabled = true);
-    
+
 
     try {
         const ingredientName = ingredient.IngredientName;
-        
+
         // try to get the message from the database
-        let dbResponse = await fetch('/api/db/getMessage',{
+        let dbResponse = await fetch('/api/db/getMessage', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({IngredientName: ingredientName})
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ IngredientName: ingredientName })
         });
-        
+
         const dbData = await dbResponse.json();
 
         let summary;
-        
+
         console.log("it actually gets here");
         // if that fails response would not exist
-        if(dbData.exists){
+        if (dbData.exists) {
             summary = dbData.message;
-        }else{
+        } else {
             const response = await fetch('/api/ai/processProductData', {
                 method: 'POST',
                 headers: {
-                'Content-Type': 'application/json',
-            },
-                body: JSON.stringify({ text: ingredientName }) 
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: ingredientName })
             });
 
             if (!response.ok) {
                 throw new Error("Failed to fetch summary from server.");
             }
 
-            const aiData = await response.json(); 
+            const aiData = await response.json();
             summary = aiData.summary;
 
             // add it to the database
@@ -186,7 +186,7 @@ async function updateButton(ingredient, textContainer) {
 
 // function to extract the links out of messages
 
-function converToHtml(text){
-  return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+function converToHtml(text) {
+    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 }
 

@@ -1,4 +1,3 @@
-
 async function checkLogin() {
   // call check Login and see if the user is loggedIn in
   const res = await fetch('/api/checkLogin', { credentials: 'include' });
@@ -11,6 +10,7 @@ async function checkLogin() {
     alert("you need to be logged in to view this page");
 
     // redirect the user to the login page
+
     window.location.href = "login.html";
   }
 }

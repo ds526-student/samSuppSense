@@ -8,7 +8,7 @@ let currentCon = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "mcdonaldstest"
+  database: "samSuppSense"
 });
 
 
@@ -18,45 +18,6 @@ currentCon.connect(function(err) {
   console.log("Database connected!");
 });
 
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  const newConnection = mysql.createConnection({
-    host: "localhost",
-    user: username,
-    password: password,
-    database: "mcdonaldstest"
-  });
-
-  newConnection.connect(function(err) {
-    if (err) {
-      console.error('Error connecting to the database:', err);
-    } else {
-      console.log('Connected to the database as:', username);
-      currentCon = newConnection;
-      res.json({ success: true, message: 'New Login successful' });
-    }
-  });
-});
-
-router.post('/logout', (req, res) => {
-  const newConnection = mysql.createConnection({
-    host: "localhost",
-    user: "guest",
-    password: "",
-    database: "mcdonaldstest"
-  });
-
-  newConnection.connect(function(err) {
-    if (err) {
-      console.error('Error connecting to the database:', err);
-    } else {
-      console.log('Connected to the database as: guest');
-      currentCon = newConnection;
-      res.json({ success: true, message: 'Logout successful' });
-    }
-  });
-});
 
 // returns all the products in the database
 router.post('/getAllProducts', (req, res) => {
@@ -200,6 +161,7 @@ router.post('/removeIngredientFromProduct', (req, res) => {
       console.error(err);
       res.status(500).send('Error removing ingredient from product');
     } else {
+      res.clearCookie('loggedIn');
       console.log('Ingredient removed from product', result);
       res.json({ success: true, result });
     }
@@ -262,11 +224,40 @@ router.post('/modifyMessageForIngredient', (req, res) => {
       res.json({ success: true, message: 'Message updated' });
     } else {
       res.status(404).json({ success: false, message: 'Message couldnt be found' })
+<<<<<<< HEAD
+=======
+    }
+  });
+});
+
+// gets true or false if combination of username and password exists in the database
+router.post('/getLogin', (req, res) => {
+  const { username, password } = req.body;
+  currentCon.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, result) => {
+    if (err) {
+
+      console.log('Login error');
+      return res.status(500).json({ success: false, message: 'Failed to login: error occured' });
+    }
+
+    if (result.length > 0) {
+      res.cookie('loggedIn', 'true', {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        sameSite: 'lax',
+        secure: false // set to true if using HTTPS
+      });
+
+      res.json({ success: true })
+    } else {
+      res.json({ success: false })
+>>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
     }
   });
 });
 
 
+<<<<<<< HEAD
 // gets true or false if combination of username and password exists in the database
 router.post('/getLogin', (req, res) => {
   const { username, password } = req.body;
@@ -294,6 +285,9 @@ router.post('/getLogin', (req, res) => {
 
 
 router.get('/checkLogin', (req, res) => {
+=======
+router.get('/check-login', (req, res) => {
+>>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
   const loggedIn = req.cookies.loggedIn === 'true';
   res.json({ loggedIn });
 });
@@ -306,7 +300,10 @@ router.post('/logout', (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
 
 //starts the database connection when the server starts
 module.exports = router;

@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SuppSense</title>
-        <script src="/js/theme-loader.js"></script>
-    </head>
-    <body>
-        <div id="login">
-            <label for="username"><b>Username</b></label>
-            <input id="usernameText" placeholder="Enter Username">
 
-            <label for="psw"><b>Password</b></label>
-            <input id="passwordText" placeholder="Enter Password">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuppSense</title>
+    <link rel="stylesheet" href="input.css">
+    <script src="themeLoader.js"></script>
+    <script src="auth.js"></script>
 
-            <button id="login">Login</button>
-            <button id="logout">Logout</button>
-        </div>
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; padding-top: -200px;">
+</head>
+
+<body>
+    <div id="main">
+        <div id="controls">
             <h1>SuppSense</h1>
             <h2>Input Data here</h2>
             <div id="Input"></div>
-            <input type="text" id="inputProduct" placeholder="New or existing product name" list="productList" style="width: 300px; height: 30px">
-            <button id="load" style="width: 100px; height: 30px; margin-top: 10px;">Load</button>
-
-            <input type="text" id="inputIngredient" placeholder="Add or Remove ingredient" list="ingredientList" style="width: 300px; height: 30px">
-            <button id="Add" style="width: 100px; height: 30px; margin-top: 10px;">Add</button>
-            <button id="Remove" style="width: 100px; height: 30px; margin-top: 10px;">Remove</button>
-
-            <button id="back" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='index.html';">Back</button>
-            <div id="output" style="margin-top: 20px;">
+            <input type="text" id="inputProduct" placeholder="New or existing product name" list="productList">
+            <button id="load">
+                Load</button>
+            <input type="text" id="inputIngredient" placeholder="Add or Remove ingredient" list="ingredientList">
+            <div id="add_remove">
+                <button id="Add">Add</button>
+                <button id="Remove">Remove</button>
             </div>
+
+
         </div>
-        <datalist id="productList"></datalist>
-        <datalist id="ingredientList"></datalist>
-        <script src="input.js"></script>
-    </body>
+        <div id="output">
+        </div>
+        <button id="back" onclick="window.location.href='index.html';">Back</button>
+    </div>
+    <datalist id="productList"></datalist>
+    <datalist id="ingredientList"></datalist>
+    <script src="input.js"></script>
+</body>
+
 </html>
