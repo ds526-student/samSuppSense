@@ -1,7 +1,6 @@
 // retrieve the result from the local storage
 //queryResult is an array holding (productId, productName)
 const queryResult = JSON.parse(localStorage.getItem('queryResult'));
-//alert(JSON.stringify( queryResult ))
 
 // display result
 const resultsDiv = document.getElementById('results');
@@ -19,6 +18,8 @@ if (queryResult && queryResult.length > 0) {
 }
 else {
     resultsDiv.textContent = 'No results found.';
+    localStorage.setItem('barcode', queryResult.barcode);
+    window.location.href = 'product.html';
 }
 
 // fetches the ingredients from the database and displays themn

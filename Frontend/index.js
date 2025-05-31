@@ -39,7 +39,11 @@ document.getElementById('submit').addEventListener('click', async () => {
         }
     
         const result = await response.json();
-        localStorage.setItem('queryResult', JSON.stringify(result));
+        let toStore = result;
+        if (Array.isArray(result) && result.length === 0) {
+            toStore = { barcode };
+        }
+        localStorage.setItem('queryResult', JSON.stringify(toStore));
         window.location.href = 'results.html';
     } catch (error) {
         console.error(error);
