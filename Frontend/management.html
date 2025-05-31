@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Management</title>
+    <link rel="stylesheet" href="management.css">
+    <script src="themeLoader.js"></script>
+    <script src="auth.js"></script>
+
+
 </head>
+
 <body>
-    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
-            <h1>management</h1>
-            <button id="managePrompts" style=" height: 30px; margin-top: 10px;" onclick="window.location.href='/messages.html';">Manage Messages</button>
-            <button id="input" style="width: 100px; height: 30px; margin-top: 10px;" onclick="window.location.href='input.html';">input</button>
-        </div>
+    <div id="main">
+        <h1>Management</h1>
+        <button id="managePrompts" onclick="window.location.href='messages.html';">Manage Messages</button>
+        <button id="input" onclick="window.location.href='input.html';">input</button>
+        <button id="back" onclick="window.location.href='index.html';">
+            Back
+        </button>
+        <button id="logout_button">
+            logout
+        </button>
+    </div>
 </body>
+
+<script src="management.js"></script>
+
 </html>
