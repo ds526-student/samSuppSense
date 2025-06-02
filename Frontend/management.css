@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+@import url('./colors.css');
+
+
+body{
+background-color: var(--background-color);
+}
+#main {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 5vh 5vw;
+    background-color: var(--background-color);
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    max-width: 90vw;
+    margin: auto;
+    margin-top: 10vh;
+    transition: all .5s ease;
+}
+
+#main:hover{
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.1);
+}
+
+h1{
+    margin-bottom: 5vh;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 1vh;
+    border-bottom: 5px solid var(--secondary-color);
+    font-size: 30px;
+    transition: all .5s ease;
+
+}
+
+h1:hover{
+  cursor: default;
+
+}
+
+
+button{
+    margin-bottom: 1vh;
+    font-size: 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color:var(--primary-color) ;
+    color: var(--text-color);
+    border: none;
+    width: 20vh;
+    height: auto;
+    padding: 5%;
+    transition: all 0.1s ease ;
+}
+
+button:hover{
+    transform: scale(1.1);
+    color: var(--background-color);
+    background-color: var(--accent-color);
+}

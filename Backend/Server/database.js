@@ -2,13 +2,15 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
+
 // information for connecting to the database
 let currentCon = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "mcdonaldstest"
+  database: "samSuppSense"
 });
+
 
 // connect to the database
 currentCon.connect(function(err) {
@@ -16,48 +18,9 @@ currentCon.connect(function(err) {
   console.log("Database connected!");
 });
 
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-const newConnection = mysql.createConnection({
-  host: "localhost",
-  user: username,
-  password: password,
-  database: "mcdonaldstest"
-});
-
-  newConnection.connect(function(err) {
-    if (err) {
-      console.error('Error connecting to the database:', err);
-    } else {
-      console.log('Connected to the database as:', username);
-      currentCon = newConnection;
-      res.json({ success: true, message: 'New Login successful' });
-    }
-  });
-});
-
-router.post('/logout', (req, res) => {
-  const newConnection = mysql.createConnection({
-    host: "localhost",
-    user: "guest",
-    password: "",
-    database: "mcdonaldstest"
-  });
-
-  newConnection.connect(function(err) {
-    if (err) {
-      console.error('Error connecting to the database:', err);
-    } else {
-      console.log('Connected to the database as: guest');
-      currentCon = newConnection;
-      res.json({ success: true, message: 'Logout successful' });
-    }
-  });
-});
 
 // returns all the products in the database
-router.post('/getAllProducts', (req, res) => {  
+router.post('/getAllProducts', (req, res) => {
   currentCon.query('SELECT ProductName FROM products', (err, result) => {
     if (err) {
       console.error(err);
@@ -96,7 +59,7 @@ router.post('/productSelect', (req, res) => {
 // uses the barcode from the frontend to select an ingredient from the database
 router.post('/ingredientSelect', (req, res) => {
   const { barcode } = req.body;
-    currentCon.query('SELECT IngredientID, IngredientName FROM ingredients WHERE IngredientID = ?', [barcode], (err, result) => {
+  currentCon.query('SELECT IngredientID, IngredientName FROM ingredients WHERE IngredientID = ?', [barcode], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error executing query');
@@ -162,19 +125,30 @@ router.post('/getIngredients', (req, res) => {
   });
 });
 
+// gets all the ingredients and messages from the messages database
+router.post('/getAllMessages', (req, res) => {
+  currentCon.query('SELECT IngredientName, Message FROM Messages', (err, result) => {
+    if (err) {
+      console.error('Error querying all messages (SELECT IngredientName, Message):', err);
+      return res.status(500).json({ success: false, message: 'Error retrieving all messages.' });
+    }
+    res.json(result);
+  });
+});
+
 // adds a productid with a corresponding ingredientid to product_ingredients
 router.post('/addIngredientToProduct', (req, res) => {
   const { ProductID, IngredientID } = req.body;
   // console.log('Product ID:', product, 'Ingredient ID:', ingredient);
-  
+
   currentCon.query('INSERT INTO product_ingredients (ProductID, IngredientID) VALUES (?, ?)', [ProductID, IngredientID], (err, result) => {
-  if (err) {
-    console.error(err);
-    res.status(500).send('Error adding ingredient to product');
-  } else {
-    console.log('Ingredient added to product:', result);
-    res.json({ success: true, result });
-  }
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error adding ingredient to product');
+    } else {
+      console.log('Ingredient added to product:', result);
+      res.json({ success: true, result });
+    }
   });
 });
 
@@ -187,6 +161,7 @@ router.post('/removeIngredientFromProduct', (req, res) => {
       console.error(err);
       res.status(500).send('Error removing ingredient from product');
     } else {
+      res.clearCookie('loggedIn');
       console.log('Ingredient removed from product', result);
       res.json({ success: true, result });
     }
@@ -208,5 +183,127 @@ router.post('/insertNewIngredient', (req, res) => {
   });
 });
 
-// starts the database connection when the server starts
+//gets the message for the ingredient
+router.post('/getMessage', (req, res) => {
+  const { IngredientName } = req.body;
+  currentCon.query('SELECT Message FROM Messages WHERE IngredientName = ?', [IngredientName], (err, result) => {
+    if (err) {
+      console.error("Error querying Messages Table:", err); // Log the error
+      return res.status(500).send("Error querying Messages Table");
+    }
+
+    if (result && result.length > 0) { // Check if result is not null/undefined AND has elements
+      return res.json({ exists: true, message: result[0].Message });
+    } else {
+      return res.json({ exists: false, message: null }); // Return exists: false if no data found
+    }
+  });
+});
+
+// insert a new message and ingredient to messages
+router.post('/addEntryToMessages', (req, res) => {
+  const { IngredientName, Message } = req.body;
+  currentCon.query('INSERT INTO Messages (IngredientName, Message) VALUES (?, ?)', [IngredientName, Message], (err, result) => {
+    if (err) {
+      return res.status(500).send("Error Inserting Message");
+    }
+    return res.json({ success: true });
+  });
+});
+
+// modify the message for the corresponding ingredient
+router.post('/modifyMessageForIngredient', (req, res) => {
+  const { IngredientName, Message } = req.body;
+  currentCon.query('UPDATE Messages SET Message = ? WHERE IngredientName = ?', [Message, IngredientName], (err, result) => {
+    if (err) {
+      console.log("error updating message");
+      return res.status(500).json({ success: false, message: 'failed to update message' });
+    }
+
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Message updated' });
+    } else {
+      res.status(404).json({ success: false, message: 'Message couldnt be found' })
+<<<<<<< HEAD
+=======
+    }
+  });
+});
+
+// gets true or false if combination of username and password exists in the database
+router.post('/getLogin', (req, res) => {
+  const { username, password } = req.body;
+  currentCon.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, result) => {
+    if (err) {
+
+      console.log('Login error');
+      return res.status(500).json({ success: false, message: 'Failed to login: error occured' });
+    }
+
+    if (result.length > 0) {
+      res.cookie('loggedIn', 'true', {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        sameSite: 'lax',
+        secure: false // set to true if using HTTPS
+      });
+
+      res.json({ success: true })
+    } else {
+      res.json({ success: false })
+>>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
+    }
+  });
+});
+
+
+<<<<<<< HEAD
+// gets true or false if combination of username and password exists in the database
+router.post('/getLogin', (req, res) => {
+  const { username, password } = req.body;
+  currentCon.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, result) => {
+    if (err) {
+
+      console.log('Login error');
+      return res.status(500).json({ success: false, message: 'Failed to login: error occured' });
+    }
+
+    if (result.length > 0) {
+      res.cookie('loggedIn', 'true', {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        sameSite: 'lax',
+        secure: false // set to true if using HTTPS
+      });
+
+      res.json({ success: true })
+    } else {
+      res.json({ success: false })
+    }
+  });
+});
+
+
+router.get('/checkLogin', (req, res) => {
+=======
+router.get('/check-login', (req, res) => {
+>>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
+  const loggedIn = req.cookies.loggedIn === 'true';
+  res.json({ loggedIn });
+});
+
+
+
+// logout
+router.post('/logout', (req, res) => {
+  res.clearCookie('loggedIn');
+  res.json({ success: true, message: "Logged out successfully" });
+});
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
+
+//starts the database connection when the server starts
 module.exports = router;

@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "mysql": "^2.18.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "html5-qrcode": "^2.3.8",
+    "mysql": "^2.18.1",
+    "openai": "^4.100.0"
   }
 }
