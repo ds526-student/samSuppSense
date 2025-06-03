@@ -35,7 +35,7 @@ async function fetchIngredients() {
         });
 
         if (!response.ok) {
-            alert('Failed to fetch ingredient IDs(Response not OK)');
+            // alert('Failed to fetch ingredient IDs(Response not OK)');
         }
 
         ingredients = await response.json(); // retrieves the ingredient IDs from the server
@@ -45,7 +45,7 @@ async function fetchIngredients() {
 
     } catch (error) {
         console.log(error);
-        alert('Error fetching ingredient IDs(results.js)');
+        // alert('Error fetching ingredient IDs(results.js)');
     }
 }
 
@@ -151,7 +151,7 @@ async function updateButton(ingredient, textContainer) {
             }
 
             const aiData = await response.json();
-            summary = aiData.summary + " \n \n  <stong>❌ This contnent has not been verified ❌</strong>";
+            summary = aiData.summary + " \n \n  <strong>This content has not been verified</strong>";
 
             // add it to the database
             await fetch('/api/db/addEntryToMessages', {

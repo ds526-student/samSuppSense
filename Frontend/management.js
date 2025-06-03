@@ -17,10 +17,10 @@ document.getElementById('logout_button').addEventListener('click', async () => {
     const logoutResult = await logoutResponse.json();
     // notify the user that logout was successful
     if (logoutResult.success) {
-      alert('Logout successful');
+      // alert('Logout successful');
       window.location.href = 'index.html';
     } else { // alert the user that the logout was unsuccessful
-      alert('Logout failed: ' + logoutResult.message);
+      // alert('Logout failed: ' + logoutResult.message);
     }
   } catch (error) {
     console.error(error);

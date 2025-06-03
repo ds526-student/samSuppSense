@@ -41,7 +41,7 @@ async function fetchDataToAutoComplete() {
         });
     } catch (error) {
         console.error(error);
-        alert('Error fetching data');
+        // alert('Error fetching data');
     }
 }
 

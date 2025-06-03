@@ -43,7 +43,7 @@ document.getElementById('submit').addEventListener('click', async () => {
         window.location.href = 'results.html';
     } catch (error) {
         console.error(error);
-        alert('Error fetching product data');
+        // alert('Error fetching product data');
     }
 });
 

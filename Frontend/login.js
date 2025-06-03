@@ -27,12 +27,12 @@ document.getElementById('login').addEventListener('click', async () => {
             window.location.href = 'management.html';
             // Redirect to another page or perform other actions
         } else if (!loginResult.success) { // otherwise alert the user that it is wrong
-            alert('Login failed: ' + loginResult.message);
+            // alert('Login failed: ' + loginResult.message);
 
         }
     } catch (error) {
         console.error(error);
-        alert('Error logging in');
+        // alert('Error logging in');
     }
 });
 
@@ -52,10 +52,10 @@ document.getElementById('logout').addEventListener('click', async () => {
         const logoutResult = await logoutResponse.json();
 
         if (logoutResult.success) {
-            alert('Logout successful');
+            // alert('Logout successful');
             window.location.href = 'index.html';
         } else {
-            alert('Logout failed: ' + logoutResult.message);
+            // alert('Logout failed: ' + logoutResult.message);
         }
     } catch (error) {
 

@@ -42,7 +42,7 @@ function displayIngredients() {
         // create a button
         const ingredientButton = document.createElement("button");
         ingredientButton.className = "ingredientButtons"
-        ingredientButton.textContent = `Ingredient Name: ${ingredient.IngredientName}`;
+        ingredientButton.textContent = `${ingredient.IngredientName}`;
 
 
         // add button to the ingredients

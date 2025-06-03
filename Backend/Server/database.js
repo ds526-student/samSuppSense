@@ -6,9 +6,9 @@ const mysql = require('mysql');
 // information for connecting to the database
 let currentCon = mysql.createConnection({
   host: "localhost",
-  user: "appuser",
-  password: "safepassword",
-  database: "suppsense"
+  user: "root",
+  password: "",
+  database: "samsuppsense"
 });
 
 // connect to the database
