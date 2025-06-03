@@ -6,11 +6,10 @@ const mysql = require('mysql');
 // information for connecting to the database
 let currentCon = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
-  database: "samSuppSense"
+  user: "appuser",
+  password: "safepassword",
+  database: "suppsense"
 });
-
 
 // connect to the database
 currentCon.connect(function(err) {
