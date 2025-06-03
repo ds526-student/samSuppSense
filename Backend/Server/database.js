@@ -185,7 +185,7 @@ router.post('/insertNewIngredient', (req, res) => {
 //gets the message for the ingredient
 router.post('/getMessage', (req, res) => {
   const { IngredientName } = req.body;
-  currentCon.query('SELECT Message FROM Messages WHERE IngredientName = ?', [IngredientName], (err, result) => {
+  currentCon.query('SELECT Message FROM messages WHERE IngredientName = ?', [IngredientName], (err, result) => {
     if (err) {
       console.error("Error querying Messages Table:", err); // Log the error
       return res.status(500).send("Error querying Messages Table");
