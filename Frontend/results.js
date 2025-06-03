@@ -9,7 +9,7 @@ if (queryResult && queryResult.length > 0) {
     const product = queryResult[0]; // sets a variable equal to the product name
     const data = document.createElement('p'); // creates a new paragraph element
     data.id = "productName"
-    data.textContent = `Product Name: ${product.ProductName}`;
+    data.textContent = product.ProductName;
     document.getElementById("main").insertBefore(data, document.getElementById("resultsDiv"));
 
     //run fetch ingredients then fetch summary in order
@@ -151,7 +151,7 @@ async function updateButton(ingredient, textContainer) {
             }
 
             const aiData = await response.json();
-            summary = aiData.summary;
+            summary = aiData.summary + " \n \n  <stong>❌ This contnent has not been verified ❌</strong>";
 
             // add it to the database
             await fetch('/api/db/addEntryToMessages', {

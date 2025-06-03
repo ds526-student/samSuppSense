@@ -71,6 +71,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// add a listener to the show popup button
+document.getElementById('toggle_button').addEventListener('click', async () => {
+    // get a reference to the popup span
+    const popup = document.getElementById("popup-content");
+    popup.style.visibility = "visible";
+});
+
+// close the popup
+document.getElementById('disable_button').addEventListener('click', async () => {
+    // get a reference to the popup span
+    const popup = document.getElementById("popup-content");
+    popup.style.visibility = "hidden";
+
+});
+
 
 // change the theme if it is dark mode 
 document.addEventListener('DOMContentLoaded', () => {
@@ -81,3 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', 'dark');
     }
 });
+
+
+

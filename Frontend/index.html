@@ -25,7 +25,39 @@
             style="width: 300px; height: 30px">
         <button id="submit">Submit</button>
         <div id="qrCodeReader" style="margin-top: 10px;"></div>
+        <div id="popup-container">
+            <button id="toggle_button">
+                show instructions
+            </button>
+            <div id="popup-content" style="visibility:hidden;">
+                <span id="instructions">
+                    <h1>how to use suppsense</h1>
+
+
+                    <h3>to scan an ingredient</h3>
+                    <p>
+                        you have two options you can either. <br>
+                        1) manually enter the barcode <br>
+                        2) or use the barcode scanner <br>
+                    </p>
+                    <h3>to get information of an ingredient </h3>
+                    <p>
+                        once the product has been loaded you can interact with the scroll bar to choose an ingredient
+                        and
+                        displays its information <br>
+                        if an ingredients message has <br>
+                        ❌ This contnent has not been verified ❌ <br>
+                        that message has not been verified and is retrieved using openAi's api with web search
+                    </p>
+                </span>
+                <button id="disable_button">Close popup</button>
+
+
+            </div>
+        </div>
+
     </div>
+
     <script src="index.js"></script>
 </body>
 
