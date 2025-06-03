@@ -224,8 +224,7 @@ router.post('/modifyMessageForIngredient', (req, res) => {
       res.json({ success: true, message: 'Message updated' });
     } else {
       res.status(404).json({ success: false, message: 'Message couldnt be found' })
-<<<<<<< HEAD
-=======
+
     }
   });
 });
@@ -251,13 +250,11 @@ router.post('/getLogin', (req, res) => {
       res.json({ success: true })
     } else {
       res.json({ success: false })
->>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
     }
   });
 });
 
 
-<<<<<<< HEAD
 // gets true or false if combination of username and password exists in the database
 router.post('/getLogin', (req, res) => {
   const { username, password } = req.body;
@@ -285,9 +282,7 @@ router.post('/getLogin', (req, res) => {
 
 
 router.get('/checkLogin', (req, res) => {
-=======
-router.get('/check-login', (req, res) => {
->>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
+
   const loggedIn = req.cookies.loggedIn === 'true';
   res.json({ loggedIn });
 });
@@ -300,10 +295,7 @@ router.post('/logout', (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 15257e1ec4ebe6ac717eb27cbb1a5c80f784abf2
 
 //starts the database connection when the server starts
 module.exports = router;

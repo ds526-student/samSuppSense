@@ -183,3 +183,15 @@ input:hover {
 input:focus {
   outline: none;
 }
+
+@media screen and (max-width: 640px) {
+  #main {
+    width: 95vw;
+    overflow-y: scroll;
+  }
+
+  #back {
+    width: auto;
+    height: auto;
+  }
+}
