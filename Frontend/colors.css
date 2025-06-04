@@ -1,6 +1,6 @@
 :root {
-    --background-color:#ffffff;
-    --secondaryBackground-color:#ffffff;
+    --background-color: #ffffff;
+    --secondaryBackground-color: #ffffff;
     --primary-color: #15b097;
     --secondary-color: #1b4965;
     --accent-color: #ff4a1c;
@@ -9,11 +9,11 @@
 
 
 [data-theme="dark"] {
-    --background-color: #01121d;
-    --secondaryBackground-color:#005994;
-    --primary-color: #1b4965;
-    --secondary-color: #15b097;
-    --accent-color: #ff4a1c;
-    --text-color: #ffffff;
+    --background-color: #181a1b;
+    --secondaryBackground-color: #181a1b;
+    --primary-color: #118d79;
+    --secondary-color: #2e7cab;
+    --accent-color: #ff4315;
+    --text-color: #fAfbfb;
     transition: all 1s ease-in-out;
 }
