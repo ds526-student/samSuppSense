@@ -178,3 +178,13 @@ body {
     color: var(--background-color);
     background-color: var(--accent-color);
 }
+
+@media screen and (max-width: 640px) {
+
+    #popup-content {
+        width: 80vw;
+        height: 70vh;
+        overflow-y: scroll;
+    }
+
+}
