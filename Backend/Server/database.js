@@ -126,7 +126,7 @@ router.post('/getIngredients', (req, res) => {
 
 // gets all the ingredients and messages from the messages database
 router.post('/getAllMessages', (req, res) => {
-  currentCon.query('SELECT IngredientName, Message FROM Messages', (err, result) => {
+  currentCon.query('SELECT IngredientName, Message FROM messages', (err, result) => {
     if (err) {
       console.error('Error querying all messages (SELECT IngredientName, Message):', err);
       return res.status(500).json({ success: false, message: 'Error retrieving all messages.' });
@@ -202,7 +202,7 @@ router.post('/getMessage', (req, res) => {
 // insert a new message and ingredient to messages
 router.post('/addEntryToMessages', (req, res) => {
   const { IngredientName, Message } = req.body;
-  currentCon.query('INSERT INTO Messages (IngredientName, Message) VALUES (?, ?)', [IngredientName, Message], (err, result) => {
+  currentCon.query('INSERT INTO messages (IngredientName, Message) VALUES (?, ?)', [IngredientName, Message], (err, result) => {
     if (err) {
       return res.status(500).send("Error Inserting Message");
     }
@@ -213,7 +213,7 @@ router.post('/addEntryToMessages', (req, res) => {
 // modify the message for the corresponding ingredient
 router.post('/modifyMessageForIngredient', (req, res) => {
   const { IngredientName, Message } = req.body;
-  currentCon.query('UPDATE Messages SET Message = ? WHERE IngredientName = ?', [Message, IngredientName], (err, result) => {
+  currentCon.query('UPDATE messages SET Message = ? WHERE IngredientName = ?', [Message, IngredientName], (err, result) => {
     if (err) {
       console.log("error updating message");
       return res.status(500).json({ success: false, message: 'failed to update message' });
